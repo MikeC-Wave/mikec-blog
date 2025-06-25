@@ -11,7 +11,6 @@ import { SITE_TITLE } from '../consts';
 		</div>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="social-links">
@@ -40,45 +39,75 @@ import { SITE_TITLE } from '../consts';
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		background: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(10px);
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		position: sticky;
+		top: 0;
+		z-index: 100;
 	}
 	.brand h2 {
 		margin: 0;
-		font-size: 1em;
+		font-size: 1.1em;
+		font-weight: 600;
 	}
 	.brand .tagline {
 		margin: 0;
 		font-size: 0.75em;
-		color: rgb(var(--gray));
+		color: var(--text-muted);
 		font-style: italic;
+		font-weight: 400;
 	}
 
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
+		color: var(--text-primary);
+		transition: color 0.2s ease;
 	}
+
+	h2 a:hover {
+		color: var(--primary);
+	}
+
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 1rem 0;
 	}
 	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+		padding: 0.75em 1em;
+		color: var(--text-secondary);
+		border-bottom: 2px solid transparent;
 		text-decoration: none;
+		font-weight: 500;
+		transition: all 0.2s ease;
+		border-radius: 6px;
 	}
 	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+		color: var(--primary);
+		background: var(--gray-50);
+	}
+	nav a:hover {
+		color: var(--primary);
+		background: var(--gray-50);
 	}
 	.social-links,
 	.social-links a {
 		display: flex;
 	}
 	.social-links {
-		gap: 0.5em;
+		gap: 0.75em;
+	}
+	.social-links a {
+		padding: 0.5em;
+		border-radius: 8px;
+		color: var(--text-muted);
+	}
+	.social-links a:hover {
+		color: var(--primary);
+		background: var(--gray-50);
 	}
 	@media (max-width: 720px) {
 		.social-links {
@@ -86,6 +115,12 @@ import { SITE_TITLE } from '../consts';
 		}
 		.brand .tagline {
 			display: none;
+		}
+		nav {
+			padding: 0.75rem 0;
+		}
+		.brand h2 {
+			font-size: 1rem;
 		}
 	}
 </style>

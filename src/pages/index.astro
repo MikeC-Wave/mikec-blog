@@ -3,6 +3,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
@@ -13,38 +19,431 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<!-- Hero Section -->
+			<section class="hero">
+				<div class="hero-content">
+					<h1 class="hero-title">
+						AI Strategy Meets 
+						<span class="text-gradient">Human Innovation</span>
+					</h1>
+					<p class="hero-description">
+						Insights on enterprise AI implementation, product leadership, and government innovation 
+						from 12+ years of transforming digital services at scale.
+					</p>
+					<div class="hero-stats">
+						<div class="stat">
+							<span class="stat-number">12+</span>
+							<span class="stat-label">Years in Gov Contracting</span>
+						</div>
+						<div class="stat">
+							<span class="stat-number">4</span>
+							<span class="stat-label">Major Agencies</span>
+						</div>
+						<div class="stat">
+							<span class="stat-number">∞</span>
+							<span class="stat-label">AI Possibilities</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Blog Posts Section -->
+			<section class="blog-section">
+				<div class="section-header">
+					<h2>Latest Insights</h2>
+					<p>Explore the intersection of AI strategy, product management, and government innovation</p>
+				</div>
+				
+				{posts.length === 0 ? (
+					<div class="empty-state">
+						<div class="empty-icon">📝</div>
+						<h3>Coming Soon</h3>
+						<p>New insights on AI strategy and product leadership are being crafted. Check back soon for valuable content on enterprise AI implementation.</p>
+					</div>
+				) : (
+					<div class="blog-grid">
+						{posts.map((post, index) => (
+							<article class={`blog-card ${index === 0 ? 'featured' : ''}`}>
+								<a href={`/blog/${post.id}/`} class="card-link">
+									<div class="card-image">
+										<img src={post.data.heroImage} alt={post.data.title} />
+										{index === 0 && <div class="featured-badge">Latest</div>}
+									</div>
+									<div class="card-content">
+										<div class="card-meta">
+											<FormattedDate date={post.data.pubDate} />
+											<span class="read-time">5 min read</span>
+										</div>
+										<h3 class="card-title">{post.data.title}</h3>
+										<p class="card-description">{post.data.description}</p>
+										<div class="card-footer">
+											<span class="read-more">Read more →</span>
+										</div>
+									</div>
+								</a>
+							</article>
+						))}
+					</div>
+				)}
+			</section>
+
+			<!-- CTA Section -->
+			<section class="cta-section">
+				<div class="cta-content">
+					<h2>Ready to Transform Your AI Strategy?</h2>
+					<p>Connect with me to discuss enterprise AI implementation, product leadership, or government innovation challenges.</p>
+					<div class="cta-buttons">
+						<a href="/about" class="btn btn-primary">Learn More About Me</a>
+						<a href="mailto:mike@mikec.ai" class="btn btn-secondary">Get In Touch</a>
+					</div>
+				</div>
+			</section>
 		</main>
 		<Footer />
+
+		<style>
+			/* Hero Section */
+			.hero {
+				background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+				color: white;
+				padding: 4rem 0;
+				margin: -2rem -1rem 4rem -1rem;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.hero::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+				opacity: 0.1;
+			}
+
+			.hero-content {
+				position: relative;
+				z-index: 1;
+				max-width: 800px;
+				margin: 0 auto;
+				text-align: center;
+				padding: 0 2rem;
+			}
+
+			.hero-title {
+				font-size: 3.5rem;
+				font-weight: 700;
+				margin-bottom: 1.5rem;
+				line-height: 1.1;
+			}
+
+			.hero-title .text-gradient {
+				background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+
+			.hero-description {
+				font-size: 1.25rem;
+				margin-bottom: 3rem;
+				opacity: 0.9;
+				line-height: 1.6;
+			}
+
+			.hero-stats {
+				display: flex;
+				justify-content: center;
+				gap: 3rem;
+				flex-wrap: wrap;
+			}
+
+			.stat {
+				text-align: center;
+			}
+
+			.stat-number {
+				display: block;
+				font-size: 2.5rem;
+				font-weight: 700;
+				margin-bottom: 0.5rem;
+			}
+
+			.stat-label {
+				font-size: 0.875rem;
+				opacity: 0.8;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+
+			/* Blog Section */
+			.blog-section {
+				margin-bottom: 4rem;
+			}
+
+			.section-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+
+			.section-header h2 {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+			}
+
+			.section-header p {
+				font-size: 1.125rem;
+				color: var(--text-muted);
+				max-width: 600px;
+				margin: 0 auto;
+			}
+
+			.blog-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+
+			.blog-card {
+				background: white;
+				border-radius: var(--border-radius-lg);
+				box-shadow: var(--shadow-md);
+				transition: all 0.3s ease;
+				overflow: hidden;
+				height: fit-content;
+			}
+
+			.blog-card:hover {
+				transform: translateY(-4px);
+				box-shadow: var(--shadow-xl);
+			}
+
+			.blog-card.featured {
+				grid-column: 1 / -1;
+			}
+
+			.blog-card.featured .card-image {
+				height: 300px;
+			}
+
+			.card-link {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+			}
+
+			.card-image {
+				position: relative;
+				height: 200px;
+				overflow: hidden;
+			}
+
+			.card-image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.3s ease;
+			}
+
+			.blog-card:hover .card-image img {
+				transform: scale(1.05);
+			}
+
+			.featured-badge {
+				position: absolute;
+				top: 1rem;
+				left: 1rem;
+				background: var(--accent);
+				color: white;
+				padding: 0.5rem 1rem;
+				border-radius: 6px;
+				font-size: 0.875rem;
+				font-weight: 500;
+			}
+
+			.card-content {
+				padding: 1.5rem;
+			}
+
+			.card-meta {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 1rem;
+				font-size: 0.875rem;
+				color: var(--text-muted);
+			}
+
+			.read-time {
+				background: var(--gray-100);
+				padding: 0.25rem 0.5rem;
+				border-radius: 4px;
+			}
+
+			.card-title {
+				font-size: 1.5rem;
+				font-weight: 600;
+				margin-bottom: 0.75rem;
+				line-height: 1.3;
+			}
+
+			.card-description {
+				color: var(--text-secondary);
+				margin-bottom: 1rem;
+				line-height: 1.6;
+			}
+
+			.card-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.read-more {
+				color: var(--primary);
+				font-weight: 500;
+				font-size: 0.875rem;
+			}
+
+			/* Empty State */
+			.empty-state {
+				text-align: center;
+				padding: 4rem 2rem;
+				background: white;
+				border-radius: var(--border-radius-lg);
+				box-shadow: var(--shadow-md);
+			}
+
+			.empty-icon {
+				font-size: 4rem;
+				margin-bottom: 1rem;
+			}
+
+			.empty-state h3 {
+				font-size: 1.5rem;
+				margin-bottom: 1rem;
+			}
+
+			.empty-state p {
+				color: var(--text-muted);
+				max-width: 500px;
+				margin: 0 auto;
+			}
+
+			/* CTA Section */
+			.cta-section {
+				background: var(--gray-50);
+				padding: 4rem 2rem;
+				border-radius: var(--border-radius-lg);
+				text-align: center;
+				margin: 4rem -1rem -2rem -1rem;
+			}
+
+			.cta-content h2 {
+				font-size: 2rem;
+				margin-bottom: 1rem;
+			}
+
+			.cta-content p {
+				font-size: 1.125rem;
+				margin-bottom: 2rem;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.cta-buttons {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				padding: 0.75rem 2rem;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 500;
+				transition: all 0.2s ease;
+				display: inline-block;
+			}
+
+			.btn-primary {
+				background: var(--primary);
+				color: white;
+			}
+
+			.btn-primary:hover {
+				background: var(--primary-dark);
+				text-decoration: none;
+			}
+
+			.btn-secondary {
+				background: white;
+				color: var(--primary);
+				border: 2px solid var(--primary);
+			}
+
+			.btn-secondary:hover {
+				background: var(--primary);
+				color: white;
+				text-decoration: none;
+			}
+
+			/* Responsive Design */
+			@media (max-width: 768px) {
+				.hero {
+					padding: 3rem 0;
+				}
+
+				.hero-title {
+					font-size: 2.5rem;
+				}
+
+				.hero-description {
+					font-size: 1.125rem;
+				}
+
+				.hero-stats {
+					gap: 2rem;
+				}
+
+				.blog-grid {
+					grid-template-columns: 1fr;
+					gap: 1.5rem;
+				}
+
+				.blog-card.featured {
+					grid-column: 1;
+				}
+
+				.cta-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.btn {
+					width: 100%;
+					max-width: 300px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.hero-title {
+					font-size: 2rem;
+				}
+
+				.hero-stats {
+					gap: 1.5rem;
+				}
+
+				.stat-number {
+					font-size: 2rem;
+				}
+			}
+		</style>
 	</body>
 </html>
