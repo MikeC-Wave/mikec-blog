@@ -1,0 +1,208 @@
+{
+    "basics": {
+        "name": "Mike Collier",
+        "label": "Enterprise AI Strategist · Product Management Coach",
+        "email": "mike@mikec.ai",
+        "phone": "+1-585-730-9899",
+        "url": "[mikec.ai](https://mikec.ai)",
+        "summary": "Hands-on product leader, Enterprise Team Coach, and Enterprise AI strategist with 12 years in federal government contracting, guiding digital-service teams at CMS, VA, CDC, and CEQ. As an extreme generalist I thrive where agile software development, lean thinking, and modern AI converge, bridging technology, business strategy, and human-centered design to transform bold ideas into usable products. I coach product managers, delivery leads, UX designers, and engineers on effective utilization of AI to support delivery and responsible AI practices, accelerating discovery-to-delivery flow, supporting the delivery of accessible and high value human-centered solutions. I enjoy and thrive in direct project delivery, coaching, and consulting in fast paced, agile environments.",
+        "location": {
+            "city": "Farmington",
+            "region": "NY",
+            "countryCode": "US"
+        },
+        "profiles": [
+            {
+                "network": "LinkedIn",
+                "url": "https://www.linkedin.com/in/michael-collier-5565b919/"
+            },
+            {
+                "network": "GitHub",
+                "url": "[https://github.com/MikeC-A6](https://github.com/MikeC-A6)"
+            }
+        ]
+    },
+
+    "work": [
+        {
+            "name": "Agile Six Applications, Inc.",
+            "location": "Remote",
+            "position": "Enterprise AI Strategist",
+            "startDate": "2025-02",
+            "summary": "Promoted to shape company-wide AI vision, drive ethical Gen-AI adoption, and coach product teams on LLM-enabled delivery.",
+            "highlights": [
+                "Launched an Innovation Lab & AI Community of Practice; supported the advancement of Gen-AI enterprise capabilities.",
+                "Built multiple internal generative AI applications to support delivery, proposals, and client demonstrations."
+            ]
+        },
+        {
+            "name": "Agile Six Applications, Inc.",
+            "location": "Remote",
+            "position": "Enterprise Product Coach",
+            "startDate": "2024-03",
+            "endDate": "2025-02",
+            "summary": "Guided cross-functional teams and government stakeholders toward outcome-driven product practices.",
+            "highlights": [
+                "Served as Enterprise Product Coach, guiding product managers towards modern delivery approaches in order to maximize outcomes.",
+                "Hired, coached, and mentored Product Managers, and facilitated the Product Management community of practice."
+            ]
+        },
+        {
+            "name": "Agile Six Applications, Inc.",
+            "location": "Remote",
+            "position": "Enterprise Team Coach",
+            "startDate": "2022-09",
+            "endDate": "2024-03",
+            "summary": "Scaled agile practices on cross-functional delivery teams in alignemt with Agile Six values.",
+            "highlights": [
+                "Coached on effective agile delivery, resulting in improved team outcomes across several cross-functional agile software development teams."
+            ]
+        },
+        {
+            "name": "Agile Six Applications, Inc.",
+            "location": "Remote",
+            "position": "Solution Architect and Product Manager",
+            "startDate": "2020-11",
+            "endDate": "2022-09",
+            "summary": "Served as a Solution Architect and Product Manager across several delivery teams across the CDC, VA, and CMS",
+            "highlights": [
+                "Supported the launch and expansion of a new, open-source reporting platform for COVID-19 test result reporting for the CDC",
+                "Supported the modernization of Medicare payment systems, helping the Government and Product teams to explore and valdidate various modernization solutions"
+            ]
+        },
+        {
+            "name": "National Government Services (Anthem FGS)",
+            "location": "Rochester, NY",
+            "position": "Innovation Architect",
+            "startDate": "2016-07",
+            "endDate": "2020-11",
+            "summary": "Designed new capabilities and services that expanded NGS's federal contract portfolio.",
+            "highlights": [
+                "Designed new capabilities and services that expanded NGS's federal contract portfolio",
+                "Led innovation initiatives that increased revenue and strengthened the company's value proposition",
+                "Served as liaison between Operations and IT to align technology investments with strategic objectives"
+            ]
+        },
+        {
+            "name": "National Government Services (Anthem FGS)",
+            "location": "Rochester, NY",
+            "position": "Business Information Consultant",
+            "startDate": "2013-07",
+            "endDate": "2016-07",
+            "summary": "Delivered operational analytics and statistical reporting to inform executive decisions.",
+            "highlights": [
+                "Delivered operational analytics and statistical reporting to inform executive decisions",
+                "Facilitated process reviews that sparked technology and workflow innovations across business units"
+            ]
+        },
+        {
+            "name": "St. Joseph's Hospital Health Center",
+            "location": "Syracuse, NY",
+            "position": "Supply Chain Associate",
+            "startDate": "2012-04",
+            "endDate": "2013-07",
+            "summary": "Led cross-functional cost-reduction program, saving $3 M in the first half of 2013.",
+            "highlights": [
+                "Led cross-functional cost-reduction program, saving $3 M in the first half of 2013",
+                "Negotiated favorable supply contracts and reported results directly to the executive team",
+                "Produced monthly supply-chain analytics for strategic decision-making"
+            ]
+        },
+        {
+            "name": "St. Joseph's Hospital Health Center",
+            "location": "Syracuse, NY",
+            "position": "Business Analyst",
+            "startDate": "2010-08",
+            "endDate": "2012-04",
+            "summary": "Led Six Sigma quality-improvement projects across clinical and financial operations.",
+            "highlights": [
+                "Led Six Sigma quality-improvement projects across clinical and financial operations",
+                "Built executive dashboards combining financial, operational, and clinical data",
+                "Developed advanced Excel and Access tools to automate reporting and analysis"
+            ]
+        }
+    ],
+
+    "educationAbbreviated": [
+        {
+            "institution": "Rochester Institute of Technology",
+            "degree": "Master of Business Administration",
+            "year": "2015"
+        },
+        {
+            "institution": "SUNY Oswego",
+            "degree": "Bachelor's in Business Administration",
+            "year": "2010"
+        }
+    ],
+
+    "education": [
+        {
+            "institution": "Rochester Institute of Technology",
+            "area": "MBA – Operations Management & Applied Statistics",
+            "studyType": "Master of Business Administration",
+            "endDate": "2015"
+        },
+        {
+            "institution": "State University of New York at Oswego",
+            "area": "Business Administration, Economics Minor",
+            "studyType": "Bachelor of Arts",
+            "endDate": "2010"
+        }
+    ],
+
+    "certificates": [
+        {
+            "name": "Product Management Studio",
+            "issuer": "UC Berkeley",
+            "date": "2022-12"
+        },
+        {
+            "name": "Lean Six Sigma Black Belt",
+            "issuer": "Syracuse University",
+            "date": "2013-02"
+        }
+    ],
+
+    "skills": [
+        {
+            "name": "AI & ML",
+            "keywords": [
+                "Rapid AI prototyping",
+                "Retrieval Augmented Generation",
+                "Prompt engineering"
+            ]
+        },
+        {
+            "name": "Product Leadership",
+            "keywords": [
+                "Outcome-driven roadmapping",
+                "AI-integrated product strategy",
+                "Discovery coaching"
+            ]
+        },
+        {
+            "name": "Agile & Lean",
+            "keywords": [
+                "Scrum",
+                "Agile team coach",
+                "Teal-org principles",
+                "Lean Six Sigma"
+            ]
+        },
+        {
+            "name": "Technical",
+            "keywords": [
+                "Replit",
+                "Vercel V0",
+                "Software Architecture",
+                "Cursor Agentic Software Development"
+            ]
+        }
+    ],
+
+    "languages": [
+        { "language": "English", "fluency": "Native" },
+        { "language": "French", "fluency": "Intermediate" }
+    ]
+}
