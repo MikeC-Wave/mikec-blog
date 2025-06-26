@@ -129,37 +129,6 @@ The development process revealed how MCP-enabled orchestration handles complex t
 
 **Bug Tracking and Resolution**: The Cursor bug bot identified issues and fed them back through the system. Each bug report included full context about the codebase, the intended functionality from Linear issues, and documentation references (enabling faster, more accurate fixes).
 
-## Building Your Own MCP Workflows
-
-I've built my own MCP servers to support my workflow (more on this in a future blog), and I leverage 4 or more MCP servers for every project I work on. Here's my typical setup:
-
-<CodeDemo title="My MCP Configuration" language="json" filename="mcp-config.json">
-{`{
-  "servers": {
-    "linear": {
-      "command": "npx",
-      "args": ["@linear/mcp-server"],
-      "purpose": "Project management and issue tracking"
-    },
-    "github": {
-      "command": "npx", 
-      "args": ["@github/mcp-server"],
-      "purpose": "Code repository management"
-    },
-    "cloudflare": {
-      "command": "npx",
-      "args": ["@cloudflare/mcp-server"],
-      "purpose": "Documentation and deployment"
-    },
-    "custom-context": {
-      "command": "node",
-      "args": ["./my-context-server.js"],
-      "purpose": "Project-specific context sharing"
-    }
-  }
-}`}
-</CodeDemo>
-
 ## The Future is Orchestrated Intelligence
 
 We're moving beyond "vibe coding" to something far more powerful: orchestrated AI development where context flows seamlessly between specialized tools, and each agent contributes its unique capabilities to a unified workflow.
