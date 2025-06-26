@@ -1,0 +1,266 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  description?: string;
+  poster?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+  threshold?: number;
+  rootMargin?: string;
+  playOnlyWhenVisible?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  position?: 'left' | 'right' | 'center';
+}
+
+const {
+  src,
+  title,
+  description,
+  poster,
+  autoplay = true,
+  loop = true,
+  muted = true,
+  controls = false,
+  threshold = 0.5,
+  rootMargin = '0px',
+  playOnlyWhenVisible = true,
+  size = 'lg',
+  position = 'center'
+} = Astro.props;
+
+// Generate unique ID for this component instance
+const videoId = `scroll-video-${Math.random().toString(36).substr(2, 9)}`;
+
+// Size classes
+const sizeClasses = {
+  sm: 'max-w-sm',
+  md: 'max-w-md', 
+  lg: 'max-w-2xl',
+  xl: 'max-w-4xl',
+  full: 'max-w-full'
+};
+
+// Position classes
+const positionClasses = {
+  left: 'mr-auto',
+  right: 'ml-auto',
+  center: 'mx-auto'
+};
+---
+
+<div class={`scroll-video-container ${sizeClasses[size]} ${positionClasses[position]} relative mb-8`}>
+  {title && (
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+  )}
+  
+  {description && (
+    <p class="text-gray-600 mb-4 leading-relaxed">{description}</p>
+  )}
+  
+  <div class="relative rounded-lg overflow-hidden shadow-lg bg-gray-100">
+    <!-- Loading indicator -->
+    <div class="loading-indicator absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+    
+    <!-- Play overlay for when autoplay fails -->
+    <div class="play-overlay absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20 opacity-0 transition-opacity duration-300 cursor-pointer">
+      <div class="bg-white bg-opacity-90 rounded-full p-4 hover:bg-opacity-100 transition-all duration-200 transform hover:scale-110">
+        <svg class="w-8 h-8 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M8 5v10l8-5-8-5z"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Video element -->
+    <video
+      id={videoId}
+      class="w-full h-auto aspect-video object-cover"
+      preload="metadata"
+      playsinline
+      muted={muted}
+      loop={loop}
+      controls={controls}
+      poster={poster}
+      data-autoplay={autoplay}
+      data-threshold={threshold}
+      data-root-margin={rootMargin}
+      data-play-only-when-visible={playOnlyWhenVisible}
+    >
+      <source src={src} type="video/mp4" />
+      <p class="text-gray-600 p-4">
+        Your browser doesn't support HTML video. 
+        <a href={src} class="text-blue-600 hover:underline">Download the video</a> instead.
+      </p>
+    </video>
+  </div>
+</div>
+
+<script>
+class ScrollVideoManager {
+  private videos = new Map<HTMLVideoElement, IntersectionObserver>();
+  
+  constructor() {
+    this.init();
+    this.setupEventListeners();
+  }
+  
+  private init() {
+    // Initialize all scroll videos on the page
+    document.querySelectorAll('[id^="scroll-video-"]').forEach((container) => {
+      const video = container.querySelector('video') as HTMLVideoElement;
+      if (video) {
+        this.setupVideo(video);
+      }
+    });
+  }
+  
+  private setupVideo(video: HTMLVideoElement) {
+    const container = video.closest('.scroll-video-container');
+    const loadingIndicator = container?.querySelector('.loading-indicator') as HTMLElement;
+    const playOverlay = container?.querySelector('.play-overlay') as HTMLElement;
+    
+    // Get configuration from data attributes
+    const autoplay = video.dataset.autoplay === 'true';
+    const threshold = parseFloat(video.dataset.threshold || '0.5');
+    const rootMargin = video.dataset.rootMargin || '0px';
+    const playOnlyWhenVisible = video.dataset.playOnlyWhenVisible === 'true';
+    
+    // Video event handlers
+    video.addEventListener('loadedmetadata', () => {
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'none';
+      }
+    });
+    
+    video.addEventListener('canplay', () => {
+      if (loadingIndicator) {
+        loadingIndicator.style.opacity = '0';
+        setTimeout(() => {
+          loadingIndicator.style.display = 'none';
+        }, 300);
+      }
+    });
+    
+    video.addEventListener('play', () => {
+      if (playOverlay) {
+        playOverlay.style.opacity = '0';
+      }
+    });
+    
+    video.addEventListener('pause', () => {
+      if (playOverlay && autoplay) {
+        playOverlay.style.opacity = '1';
+      }
+    });
+    
+    // Handle autoplay failures
+    const handleAutoplayFailure = () => {
+      if (playOverlay) {
+        playOverlay.style.opacity = '1';
+        playOverlay.addEventListener('click', () => {
+          video.play().catch(console.error);
+        });
+      }
+    };
+    
+    // Set up Intersection Observer
+    if (autoplay) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Video is in view - try to play
+              video.play().catch(handleAutoplayFailure);
+            } else if (playOnlyWhenVisible && !entry.isIntersecting) {
+              // Video is out of view - pause if configured to do so
+              video.pause();
+            }
+          });
+        },
+        {
+          threshold: threshold,
+          rootMargin: rootMargin
+        }
+      );
+      
+      observer.observe(video);
+      this.videos.set(video, observer);
+    }
+    
+    // Manual play overlay click handler
+    if (playOverlay) {
+      playOverlay.addEventListener('click', () => {
+        video.play().catch(console.error);
+      });
+    }
+  }
+  
+  private setupEventListeners() {
+    // Clean up observers on page transitions
+    document.addEventListener('astro:before-swap', () => {
+      this.cleanup();
+    });
+    
+    // Reinitialize on page load
+    document.addEventListener('astro:page-load', () => {
+      this.init();
+    });
+  }
+  
+  private cleanup() {
+    this.videos.forEach((observer, video) => {
+      observer.disconnect();
+      video.pause();
+    });
+    this.videos.clear();
+  }
+}
+
+// Initialize the manager
+if (typeof window !== 'undefined') {
+  // Use a singleton pattern to avoid multiple managers
+  if (!(window as any).scrollVideoManager) {
+    (window as any).scrollVideoManager = new ScrollVideoManager();
+  }
+}
+</script>
+
+<style>
+.scroll-video-container {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-video-container video {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scroll-video-container:hover video {
+  transform: scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.loading-indicator {
+  transition: opacity 0.3s ease;
+}
+
+.play-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.play-overlay:hover {
+  backdrop-filter: blur(2px);
+}
+</style> 

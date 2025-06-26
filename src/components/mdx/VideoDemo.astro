@@ -1,0 +1,430 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  description?: string;
+  poster?: string;
+  type: 'demo' | 'tutorial' | 'feature' | 'comparison';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  position?: 'left' | 'right' | 'center' | 'float-left' | 'float-right';
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+  caption?: string;
+  playOnScroll?: boolean;
+  threshold?: number;
+}
+
+const {
+  src,
+  title,
+  description,
+  poster,
+  type,
+  size = 'lg',
+  position = 'center',
+  autoplay = true,
+  loop = true,
+  muted = true,
+  controls = false,
+  caption,
+  playOnScroll = true,
+  threshold = 0.5
+} = Astro.props;
+
+// Generate unique ID for this component instance
+const videoId = `video-demo-${Math.random().toString(36).substr(2, 9)}`;
+
+// Type-specific configurations
+const typeConfig = {
+  demo: {
+    icon: '🎬',
+    gradient: 'from-blue-500 to-blue-700',
+    glowColor: 'blue-500',
+    bgGradient: 'from-blue-50 to-blue-100',
+    borderColor: 'blue-200'
+  },
+  tutorial: {
+    icon: '🎓',
+    gradient: 'from-green-500 to-green-700',
+    glowColor: 'green-500',
+    bgGradient: 'from-green-50 to-green-100',
+    borderColor: 'green-200'
+  },
+  feature: {
+    icon: '⚡',
+    gradient: 'from-purple-500 to-purple-700',
+    glowColor: 'purple-500',
+    bgGradient: 'from-purple-50 to-purple-100',
+    borderColor: 'purple-200'
+  },
+  comparison: {
+    icon: '⚖️',
+    gradient: 'from-orange-500 to-red-600',
+    glowColor: 'orange-500',
+    bgGradient: 'from-orange-50 to-red-100',
+    borderColor: 'orange-200'
+  }
+};
+
+const config = typeConfig[type];
+
+// Size classes
+const sizeClasses = {
+  sm: 'max-w-sm',
+  md: 'max-w-md',
+  lg: 'max-w-2xl',
+  xl: 'max-w-4xl',
+  full: 'max-w-full'
+};
+
+// Position classes
+const positionClasses = {
+  left: 'mr-auto',
+  right: 'ml-auto',
+  center: 'mx-auto',
+  'float-left': 'float-left mr-6 mb-4',
+  'float-right': 'float-right ml-6 mb-4'
+};
+
+// Floating sizes are smaller
+const floatingSize = position.includes('float') ? 'max-w-md' : sizeClasses[size];
+---
+
+<div class={`video-demo-container ${floatingSize} ${positionClasses[position]} relative mb-8`}>
+  <!-- Type badge -->
+  <div class={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium text-white bg-gradient-to-r ${config.gradient} mb-4 shadow-lg`}>
+    <span class="text-base">{config.icon}</span>
+    <span class="capitalize">{type}</span>
+  </div>
+  
+  {title && (
+    <h3 class="text-2xl font-bold text-gray-900 mb-3 leading-tight">{title}</h3>
+  )}
+  
+  {description && (
+    <div class="text-gray-600 mb-6 leading-relaxed prose prose-sm max-w-none">
+      <p>{description}</p>
+    </div>
+  )}
+  
+  <div class={`video-wrapper relative rounded-xl overflow-hidden shadow-2xl bg-gradient-to-br ${config.bgGradient} border border-${config.borderColor} group`}>
+    <!-- Animated gradient glow effect -->
+    <div class={`absolute -inset-0.5 bg-gradient-to-r ${config.gradient} rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-tilt`}></div>
+    
+    <!-- Video container -->
+    <div class="relative bg-white rounded-xl">
+      <!-- Professional loading state -->
+      <div class="loading-indicator absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 z-10 rounded-xl">
+        <div class={`animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-${config.glowColor} mb-4`}></div>
+        <p class="text-gray-600 font-medium">Loading {type}...</p>
+      </div>
+      
+      <!-- Custom play overlay -->
+      <div class={`play-overlay absolute inset-0 flex items-center justify-center z-20 opacity-0 transition-all duration-300 cursor-pointer rounded-xl`} style="backdrop-filter: blur(8px); background: rgba(0,0,0,0.4);">
+        <div class={`bg-gradient-to-r ${config.gradient} rounded-full p-6 hover:scale-110 transition-all duration-200 shadow-2xl`}>
+          <svg class="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M8 5v10l8-5-8-5z"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Custom controls overlay -->
+      <div class="custom-controls absolute bottom-4 left-4 right-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
+        <div class="flex items-center gap-3">
+          <!-- Play/Pause button -->
+          <button class="play-pause-btn bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-all duration-200 backdrop-blur-sm">
+            <svg class="play-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8 5v10l8-5-8-5z"/>
+            </svg>
+            <svg class="pause-icon w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6 4h2v12H6V4zm6 0h2v12h-2V4z"/>
+            </svg>
+          </button>
+          
+          <!-- Mute/Unmute button -->
+          <button class="mute-btn bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition-all duration-200 backdrop-blur-sm">
+            <svg class="unmute-icon w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.828 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.828l3.555-3.793a1 1 0 011.617-.793zM12 8a1 1 0 011.414 0L15 9.586l1.586-1.586A1 1 0 0118 9.414L16.414 11 18 12.586A1 1 0 0116.586 14L15 12.414 13.414 14A1 1 0 0112 12.586L13.586 11 12 9.414A1 1 0 0112 8z"/>
+            </svg>
+            <svg class="mute-icon w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.793L4.828 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.828l3.555-3.793a1 1 0 011.617-.793z"/>
+              <path d="M12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Type indicator -->
+        <div class={`px-3 py-1 bg-gradient-to-r ${config.gradient} text-white text-xs font-medium rounded-full shadow-lg`}>
+          {config.icon} {type.toUpperCase()}
+        </div>
+      </div>
+      
+      <!-- Video element -->
+      <video
+        id={videoId}
+        class="w-full h-auto aspect-video object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.01]"
+        preload="metadata"
+        playsinline
+        muted={muted}
+        loop={loop}
+        controls={controls}
+        poster={poster}
+        data-autoplay={autoplay}
+        data-threshold={threshold}
+        data-play-on-scroll={playOnScroll}
+        data-type={type}
+      >
+        <source src={src} type="video/mp4" />
+        <p class="text-gray-600 p-6">
+          Your browser doesn't support HTML video. 
+          <a href={src} class={`text-${config.glowColor} hover:underline font-medium`}>Download the {type}</a> instead.
+        </p>
+      </video>
+    </div>
+  </div>
+  
+  {caption && (
+    <p class="text-sm text-gray-500 mt-3 text-center italic">{caption}</p>
+  )}
+</div>
+
+<script>
+class VideoDemoManager {
+  private videos = new Map<HTMLVideoElement, { observer?: IntersectionObserver; config: any }>();
+  
+  constructor() {
+    this.init();
+    this.setupEventListeners();
+  }
+  
+  private init() {
+    document.querySelectorAll('[id^="video-demo-"]').forEach((container) => {
+      const video = container.querySelector('video') as HTMLVideoElement;
+      if (video) {
+        this.setupVideo(video);
+      }
+    });
+  }
+  
+  private setupVideo(video: HTMLVideoElement) {
+    const container = video.closest('.video-demo-container');
+    const loadingIndicator = container?.querySelector('.loading-indicator') as HTMLElement;
+    const playOverlay = container?.querySelector('.play-overlay') as HTMLElement;
+    const playPauseBtn = container?.querySelector('.play-pause-btn') as HTMLButtonElement;
+    const muteBtn = container?.querySelector('.mute-btn') as HTMLButtonElement;
+    
+    // Get configuration from data attributes
+    const autoplay = video.dataset.autoplay === 'true';
+    const threshold = parseFloat(video.dataset.threshold || '0.5');
+    const playOnScroll = video.dataset.playOnScroll === 'true';
+    const type = video.dataset.type;
+    
+    // Video event handlers
+    video.addEventListener('loadedmetadata', () => {
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'none';
+      }
+    });
+    
+    video.addEventListener('canplay', () => {
+      if (loadingIndicator) {
+        loadingIndicator.style.opacity = '0';
+        setTimeout(() => {
+          loadingIndicator.style.display = 'none';
+        }, 300);
+      }
+    });
+    
+    video.addEventListener('play', () => {
+      if (playOverlay) {
+        playOverlay.style.opacity = '0';
+      }
+      this.updatePlayPauseButton(playPauseBtn, true);
+    });
+    
+    video.addEventListener('pause', () => {
+      if (playOverlay && autoplay) {
+        playOverlay.style.opacity = '1';
+      }
+      this.updatePlayPauseButton(playPauseBtn, false);
+    });
+    
+    video.addEventListener('volumechange', () => {
+      this.updateMuteButton(muteBtn, video.muted);
+    });
+    
+    // Custom control handlers
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (video.paused) {
+          video.play().catch(console.error);
+        } else {
+          video.pause();
+        }
+      });
+    }
+    
+    if (muteBtn) {
+      muteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        video.muted = !video.muted;
+      });
+    }
+    
+    // Handle autoplay failures
+    const handleAutoplayFailure = () => {
+      if (playOverlay) {
+        playOverlay.style.opacity = '1';
+      }
+    };
+    
+    // Play overlay click handler
+    if (playOverlay) {
+      playOverlay.addEventListener('click', () => {
+        video.play().catch(handleAutoplayFailure);
+      });
+    }
+    
+    // Set up Intersection Observer for scroll-triggered playback
+    if (autoplay && playOnScroll) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              video.play().catch(handleAutoplayFailure);
+            } else {
+              video.pause();
+            }
+          });
+        },
+        { threshold: threshold }
+      );
+      
+      observer.observe(video);
+      this.videos.set(video, { observer, config: { type } });
+    } else {
+      this.videos.set(video, { config: { type } });
+    }
+  }
+  
+  private updatePlayPauseButton(button: HTMLButtonElement, isPlaying: boolean) {
+    if (!button) return;
+    
+    const playIcon = button.querySelector('.play-icon') as HTMLElement;
+    const pauseIcon = button.querySelector('.pause-icon') as HTMLElement;
+    
+    if (isPlaying) {
+      playIcon?.classList.add('hidden');
+      pauseIcon?.classList.remove('hidden');
+    } else {
+      playIcon?.classList.remove('hidden');
+      pauseIcon?.classList.add('hidden');
+    }
+  }
+  
+  private updateMuteButton(button: HTMLButtonElement, isMuted: boolean) {
+    if (!button) return;
+    
+    const muteIcon = button.querySelector('.mute-icon') as HTMLElement;
+    const unmuteIcon = button.querySelector('.unmute-icon') as HTMLElement;
+    
+    if (isMuted) {
+      muteIcon?.classList.remove('hidden');
+      unmuteIcon?.classList.add('hidden');
+    } else {
+      muteIcon?.classList.add('hidden');
+      unmuteIcon?.classList.remove('hidden');
+    }
+  }
+  
+  private setupEventListeners() {
+    document.addEventListener('astro:before-swap', () => {
+      this.cleanup();
+    });
+    
+    document.addEventListener('astro:page-load', () => {
+      this.init();
+    });
+  }
+  
+  private cleanup() {
+    this.videos.forEach(({ observer }, video) => {
+      observer?.disconnect();
+      video.pause();
+    });
+    this.videos.clear();
+  }
+}
+
+// Initialize the manager
+if (typeof window !== 'undefined') {
+  if (!(window as any).videoDemoManager) {
+    (window as any).videoDemoManager = new VideoDemoManager();
+  }
+}
+</script>
+
+<style>
+.video-demo-container {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tilt {
+  0%, 50%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(0.5deg);
+  }
+  75% {
+    transform: rotate(-0.5deg);
+  }
+}
+
+.animate-tilt {
+  animation: tilt 10s infinite linear;
+}
+
+.video-wrapper {
+  transition: all 0.3s ease;
+}
+
+.video-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+.custom-controls {
+  backdrop-filter: blur(10px);
+}
+
+.custom-controls button:hover {
+  transform: scale(1.1);
+}
+
+/* Floating video adjustments */
+.video-demo-container.float-left,
+.video-demo-container.float-right {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .video-demo-container.float-left,
+  .video-demo-container.float-right {
+    float: none !important;
+    margin: 0 0 2rem 0 !important;
+    max-width: 100% !important;
+  }
+}
+</style> 
