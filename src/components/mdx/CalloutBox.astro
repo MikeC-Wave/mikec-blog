@@ -1,0 +1,63 @@
+---
+// CalloutBox component for highlighting key insights, warnings, success messages, and notes
+export interface Props {
+  type?: 'success' | 'warning' | 'info' | 'note' | 'error';
+  title?: string;
+  class?: string;
+}
+
+const { type = 'info', title, class: className = '' } = Astro.props;
+
+// Define styles for each callout type
+const typeStyles = {
+  success: {
+    container: 'border-l-4 border-green-500 bg-green-50 text-green-900',
+    icon: '✅',
+    titleColor: 'text-green-800',
+    defaultTitle: 'Success'
+  },
+  warning: {
+    container: 'border-l-4 border-yellow-500 bg-yellow-50 text-yellow-900',
+    icon: '⚠️',
+    titleColor: 'text-yellow-800',
+    defaultTitle: 'Warning'
+  },
+  error: {
+    container: 'border-l-4 border-red-500 bg-red-50 text-red-900',
+    icon: '❌',
+    titleColor: 'text-red-800',
+    defaultTitle: 'Error'
+  },
+  info: {
+    container: 'border-l-4 border-blue-500 bg-blue-50 text-blue-900',
+    icon: 'ℹ️',
+    titleColor: 'text-blue-800',
+    defaultTitle: 'Info'
+  },
+  note: {
+    container: 'border-l-4 border-gray-500 bg-gray-50 text-gray-900',
+    icon: '📝',
+    titleColor: 'text-gray-800',
+    defaultTitle: 'Note'
+  }
+};
+
+const currentStyle = typeStyles[type];
+const displayTitle = title || currentStyle.defaultTitle;
+---
+
+<div class={`${currentStyle.container} p-4 my-6 rounded-r-lg ${className}`}>
+  <div class="flex items-start gap-3">
+    <span class="text-xl flex-shrink-0 mt-0.5" aria-hidden="true">
+      {currentStyle.icon}
+    </span>
+    <div class="flex-1 min-w-0">
+      <h4 class={`${currentStyle.titleColor} font-semibold text-lg mb-2 leading-tight`}>
+        {displayTitle}
+      </h4>
+      <div class="prose prose-sm max-w-none">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div> 

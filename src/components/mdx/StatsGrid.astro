@@ -1,0 +1,74 @@
+---
+// StatsGrid component for displaying metrics and statistics in an organized grid
+export interface Props {
+  class?: string;
+  columns?: 2 | 3 | 4;
+}
+
+const { class: className = '', columns = 3 } = Astro.props;
+
+// Define grid classes based on column count
+const gridClasses = {
+  2: 'grid-cols-1 md:grid-cols-2',
+  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+};
+
+const gridClass = gridClasses[columns];
+---
+
+<div class={`grid ${gridClass} gap-6 my-8 ${className}`}>
+  <slot />
+</div>
+
+<style>
+  /* Global styles for stat items within the grid */
+  :global(.stat-item) {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    text-align: center;
+  }
+  
+  :global(.stat-number) {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    :global(.stat-number) {
+      font-size: 2.25rem;
+    }
+  }
+  
+  :global(.stat-label) {
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  @media (min-width: 768px) {
+    :global(.stat-label) {
+      font-size: 1rem;
+    }
+  }
+  
+  :global(.stat-description) {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+  }
+  
+  /* Hover effects */
+  :global(.stat-item:hover) {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: scale(1.05);
+    transition: all 0.2s;
+  }
+</style> 

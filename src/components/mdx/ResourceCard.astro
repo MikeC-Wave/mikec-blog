@@ -1,0 +1,125 @@
+---
+// ResourceCard component for linking to external resources with rich previews
+export interface Props {
+  title: string;
+  url: string;
+  description?: string;
+  type?: 'article' | 'video' | 'tool' | 'course' | 'book' | 'github' | 'docs';
+  author?: string;
+  image?: string;
+  class?: string;
+}
+
+const { 
+  title, 
+  url, 
+  description, 
+  type = 'article', 
+  author, 
+  image,
+  class: className = '' 
+} = Astro.props;
+
+// Define icons and styles for each resource type
+const typeConfig = {
+  article: { icon: '📄', color: 'blue', label: 'Article' },
+  video: { icon: '🎥', color: 'red', label: 'Video' },
+  tool: { icon: '🛠️', color: 'green', label: 'Tool' },
+  course: { icon: '🎓', color: 'purple', label: 'Course' },
+  book: { icon: '📚', color: 'orange', label: 'Book' },
+  github: { icon: '💻', color: 'gray', label: 'GitHub' },
+  docs: { icon: '📖', color: 'indigo', label: 'Documentation' }
+};
+
+const config = typeConfig[type];
+const colorClasses = {
+  blue: 'border-blue-200 bg-blue-50 text-blue-800',
+  red: 'border-red-200 bg-red-50 text-red-800',
+  green: 'border-green-200 bg-green-50 text-green-800',
+  purple: 'border-purple-200 bg-purple-50 text-purple-800',
+  orange: 'border-orange-200 bg-orange-50 text-orange-800',
+  gray: 'border-gray-200 bg-gray-50 text-gray-800',
+  indigo: 'border-indigo-200 bg-indigo-50 text-indigo-800'
+};
+---
+
+<a 
+  href={url} 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class={`block my-6 p-6 bg-white rounded-xl border border-gray-200 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 no-underline ${className}`}
+>
+  <div class="flex items-start gap-4">
+    <!-- Image/Icon -->
+    <div class="flex-shrink-0">
+      {image ? (
+        <img 
+          src={image} 
+          alt={title}
+          class="w-16 h-16 rounded-lg object-cover border border-gray-200"
+        />
+      ) : (
+        <div class="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center text-2xl">
+          {config.icon}
+        </div>
+      )}
+    </div>
+    
+    <!-- Content -->
+    <div class="flex-1 min-w-0">
+      <!-- Type badge -->
+      <div class="mb-2">
+        <span class={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${colorClasses[config.color]}`}>
+          <span>{config.icon}</span>
+          {config.label}
+        </span>
+      </div>
+      
+      <!-- Title -->
+      <h4 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+        {title}
+      </h4>
+      
+      <!-- Description -->
+      {description && (
+        <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+          {description}
+        </p>
+      )}
+      
+      <!-- Author and URL -->
+      <div class="flex items-center justify-between text-xs text-gray-500">
+        {author && (
+          <span class="font-medium">by {author}</span>
+        )}
+        <span class="truncate ml-auto">
+          {new URL(url).hostname}
+        </span>
+      </div>
+    </div>
+    
+    <!-- External link icon -->
+    <div class="flex-shrink-0 text-gray-400">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
+    </div>
+  </div>
+</a>
+
+<style>
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style> 
