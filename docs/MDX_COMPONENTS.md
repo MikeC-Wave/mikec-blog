@@ -214,107 +214,41 @@ A lightweight video component that plays once when scrolled into view with a rep
 - Works with Astro view transitions
 - Minimal overhead and simple implementation
 
-### 8. ScrollVideo
+### 8. XEmbed
 
-Auto-playing video component that triggers playback when scrolled into view using the Intersection Observer API.
+Embed X (Twitter) posts using the official X oEmbed API for authentic rendering with full functionality.
 
 **Props:**
-- `src` (required): Video source URL
-- `title` (optional): Video title displayed above
-- `description` (optional): Video description
-- `poster` (optional): Thumbnail image
-- `autoplay` (optional): Enable auto-play on scroll - Default: `true`
-- `loop` (optional): Loop video playback - Default: `true`
-- `muted` (optional): Mute video by default - Default: `true`
-- `controls` (optional): Show native video controls - Default: `false`
-- `threshold` (optional): Intersection threshold (0-1) - Default: `0.5`
-- `rootMargin` (optional): Observer root margin - Default: `'0px'`
-- `playOnlyWhenVisible` (optional): Pause when out of view - Default: `true`
-- `size` (optional): `'sm' | 'md' | 'lg' | 'xl' | 'full'` - Default: `'lg'`
-- `position` (optional): `'left' | 'right' | 'center'` - Default: `'center'`
+- `url` (required): X post URL
+- `theme` (optional): `'light' | 'dark'` - Default: `'light'`
+- `maxwidth` (optional): Maximum width in pixels
+- `hide_media` (optional): Hide media attachments - Default: `false`
+- `hide_thread` (optional): Hide thread context - Default: `false`
+- `align` (optional): `'left' | 'center' | 'right'` - Default: `'left'`
 
 **Usage:**
 ```mdx
-<ScrollVideo 
-  src="/videos/demo.mp4" 
-  title="Feature Demo"
-  description="Watch this quick demonstration of the new feature in action."
-  poster="/videos/demo-poster.jpg"
-  size="xl"
+<XEmbed 
+  url="https://x.com/username/status/1234567890"
+  theme="light"
+  maxwidth={500}
+  align="center"
 />
 
-<ScrollVideo 
-  src="/videos/tutorial.mp4"
-  autoplay={false}
-  controls={true}
-  position="left"
-  size="md"
+<XEmbed 
+  url="https://x.com/username/status/1234567890"
+  theme="dark"
+  hide_media={true}
 />
 ```
 
-### 9. VideoDemo
-
-Enhanced video component with type-specific styling, custom controls, and rich visual effects for professional presentations.
-
-**Props:**
-- `src` (required): Video source URL
-- `type` (required): `'demo' | 'tutorial' | 'feature' | 'comparison'` - Affects styling and branding
-- `title` (optional): Video title with enhanced typography
-- `description` (optional): Video description with rich formatting
-- `poster` (optional): Thumbnail image
-- `size` (optional): `'sm' | 'md' | 'lg' | 'xl' | 'full'` - Default: `'lg'`
-- `position` (optional): `'left' | 'right' | 'center' | 'float-left' | 'float-right'` - Default: `'center'`
-- `autoplay` (optional): Enable auto-play - Default: `true`
-- `loop` (optional): Loop video playback - Default: `true`
-- `muted` (optional): Mute video by default - Default: `true`
-- `controls` (optional): Show native vs custom controls - Default: `false`
-- `caption` (optional): Caption text below video
-- `playOnScroll` (optional): Enable scroll-triggered playback - Default: `true`
-- `threshold` (optional): Intersection threshold for scroll trigger - Default: `0.5`
-
-**Type-Specific Styling:**
-- **Demo**: Blue gradient with 🎬 icon
-- **Tutorial**: Green gradient with 🎓 icon  
-- **Feature**: Purple gradient with ⚡ icon
-- **Comparison**: Orange/red gradient with ⚖️ icon
-
-**Usage:**
-```mdx
-<VideoDemo 
-  type="demo"
-  src="/videos/product-demo.mp4"
-  title="Product Demo"
-  description="See our latest features in action with this comprehensive demonstration."
-  poster="/videos/demo-poster.jpg"
-  caption="Demo recorded with the latest version"
-  size="xl"
-/>
-
-<VideoDemo 
-  type="tutorial"
-  src="/videos/how-to-guide.mp4"
-  title="Step-by-Step Tutorial"
-  description="Learn how to implement this feature with our detailed tutorial."
-  position="float-right"
-  size="md"
-/>
-
-<VideoDemo 
-  type="feature"
-  src="/videos/feature-showcase.mp4"
-  title="New Feature Showcase"
-  autoplay={false}
-  controls={true}
-/>
-
-<VideoDemo 
-  type="comparison"
-  src="/videos/before-after.mp4"
-  title="Before vs After Comparison"
-  description="See the dramatic improvements in performance and user experience."
-  caption="Performance metrics shown are from real-world testing"
-/>
-```
+**Features:**
+- Uses official X oEmbed API for authentic rendering
+- Loads X widgets.js for full interactivity
+- Supports all X post types (text, images, videos, threads)
+- Configurable appearance options
+- Error handling with fallback links
+- Respects user's theme preferences
 
 ## Best Practices
 
