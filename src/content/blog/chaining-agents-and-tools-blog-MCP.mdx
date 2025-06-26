@@ -6,7 +6,7 @@ heroImage: '/blog-1-hero.jpg'
 ---
 
 <CalloutBox type="note" title="Beyond Vibe Coding">
-Four months ago, Andrej Karpathy coined the term "vibe coding." While the term caught on, it never resonated with how I approached AI-assisted development. This is the story of how the Model Context Protocol changed everything.
+Four months ago, Andrej Karpathy coined the term "vibe coding." While the term caught on, it never resonated with how I approached AI-assisted development. Then MCP came along and got me even further away from vibe coding by enabling me to systematically chain agents together with shared context. This article covers how my orchestrated approach was revolutionized with the introduction of MCP and the availability of remote MCP servers.
 </CalloutBox>
 
 ## From Manual Workarounds to Seamless Integration
@@ -24,7 +24,7 @@ The term "vibe coding" didn't capture what I was doing. I wasn't just prompting 
 
 ## The Context Sharing Problem
 
-I spent hundreds of hours creating applications and refactoring them until they became easy to change. But I constantly hit barriers. Claude Sonnet 3.5 was the defacto coding model, and sharing context between different AI models required creative workarounds.
+I spent hundreds of hours creating applications and refactoring them until they became easy to change. But I constantly hit barriers. Claude Sonnet 3.5 was the defacto coding model that coding agents leveraged, but it was not as nearly as powerful as models are today. More powerful models existed, but their availablity was trapped in bespoke platforms like ChatGPT. Sharing context between different AI models and orchestating development required creative workarounds.
 
 <ProcessStep number="1" title="The Copy-Paste Workflow">
 I created an app that made it easy to copy an entire GitHub repository into a single text file. This allowed me to share my codebase with more powerful AI reasoning models available in the ChatGPT interface. It was crude but effective.
@@ -51,7 +51,7 @@ MCP revolutionized my approach to building software by eliminating the friction 
 
 ### Building This Blog: A Case Study in Orchestrated Intelligence
 
-To demonstrate the power of MCP-enabled orchestration, let me share how I set up this very blog site in about 2.5 hours:
+To demonstrate the power of MCP-enabled orchestration, let me share how I set up this blog site in about 2.5 hours:
 
 <ProcessStep number="1" title="Strategic Planning with Seamless Context">
 Used Claude.ai to brainstorm the technology stack and examine tradeoffs. I landed on an Astro blog with Tailwind CSS hosted on Cloudflare Workers. Claude created a comprehensive Linear issue for the initial MVP via the Linear MCP server, complete with detailed requirements and acceptance criteria.
@@ -85,12 +85,6 @@ Bounced between claude.ai, Cursor, and GitHub:
     <div class="stat-label">MCP Servers</div>
     <div class="stat-description">Used in every project</div>
   </div>
-  
-  <div class="stat-item">
-    <div class="stat-number">Zero</div>
-    <div class="stat-label">Context Loss</div>
-    <div class="stat-description">Seamless tool handoffs</div>
-  </div>
 </StatsGrid>
 
 ## The Power of Intelligent Orchestration
@@ -98,14 +92,14 @@ Bounced between claude.ai, Cursor, and GitHub:
 MCP enables something greater than the sum of its parts: orchestration where specialized AI tools work together seamlessly, enabling us the efficiently leverage their unique strengths without losing context.
 
 <TechStack title="My Current Orchestrated Stack">
-  <span class="tech-badge tech-badge-success">MCP</span>
+  <span class="tech-badge tech-badge-success">claude.ai</span>
+  <span class="tech-badge tech-badge-success">Cursor Agent</span>
+  <span class="tech-badge tech-badge-success">Cursor Bug Bot</span>
   <span class="tech-badge tech-badge-primary">Linear MCP</span>
-  <span class="tech-badge">Cloudflare</span>
+  <span class="tech-badge">Cloudflare Deployment</span>
   <span class="tech-badge">Cloudflare MCP servers</span>
   <span class="tech-badge">GitHub MCP server</span>
   <span class="tech-badge tech-badge-warning">GitHub</span>
-  <span class="tech-badge">Code Repository</span>
-  <span class="tech-badge tech-badge-secondary">Cloudflare Docs MCP Server</span>
 </TechStack>
 
 ### Why MCP Changes Everything
