@@ -1,0 +1,72 @@
+---
+interface Props {
+  url: string;
+  theme?: 'light' | 'dark';
+  maxwidth?: number;
+  hide_media?: boolean;
+  hide_thread?: boolean;
+  align?: 'left' | 'right' | 'center' | 'none';
+}
+
+const { 
+  url, 
+  theme = 'light',
+  maxwidth = 550,
+  hide_media = false,
+  hide_thread = false,
+  align = 'center'
+} = Astro.props;
+
+// Build oEmbed URL with parameters
+const oembedParams = new URLSearchParams({
+  url: url,
+  theme: theme,
+  maxwidth: maxwidth.toString(),
+  hide_media: hide_media.toString(),
+  hide_thread: hide_thread.toString(),
+  align: align,
+  omit_script: 'true' // We'll include the script ourselves
+});
+
+const oembedUrl = `https://publish.twitter.com/oembed?${oembedParams.toString()}`;
+
+// Fetch the oEmbed data at build time
+let embedHtml = '';
+try {
+  const response = await fetch(oembedUrl);
+  if (response.ok) {
+    const data = await response.json();
+    embedHtml = data.html;
+  } else {
+    console.warn(`Failed to fetch oEmbed data for ${url}`);
+    embedHtml = `<p>Unable to load tweet from <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a></p>`;
+  }
+} catch (error) {
+  console.warn(`Error fetching oEmbed data for ${url}:`, error);
+  embedHtml = `<p>Unable to load tweet from <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a></p>`;
+}
+---
+
+<div class="x-embed-container my-8 mx-auto max-w-2xl">
+  <div set:html={embedHtml}></div>
+</div>
+
+<!-- Include X widgets script -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<style>
+.x-embed-container {
+  /* Ensure the embedded tweet fits well with our blog styling */
+}
+
+.x-embed-container .twitter-tweet {
+  margin: 0 auto !important;
+}
+
+/* Dark mode support if needed */
+@media (prefers-color-scheme: dark) {
+  .x-embed-container .twitter-tweet {
+    /* X widgets handle their own dark mode */
+  }
+}
+</style> 
