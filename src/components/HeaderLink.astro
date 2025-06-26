@@ -11,7 +11,11 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, '');
 
 <a 
 	href={href} 
-	class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 text-sm tracking-wide"
+	class={`font-medium transition-colors duration-200 text-sm tracking-wide ${
+		isActive 
+			? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
+			: 'text-gray-600 hover:text-blue-600'
+	}`}
 >
 	<slot />
 </a>
