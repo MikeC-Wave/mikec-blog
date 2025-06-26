@@ -3,102 +3,196 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Tailwind CSS v4 + Astro Best Practices
+# Tailwind CSS v4 + Astro Integration Guide
 
-## Core Setup
+## Validated Setup Information
 
-**CSS Import**: Use `@import "tailwindcss"` (not `@tailwind` directives)
-**Astro Config**: Use `@tailwindcss/vite` plugin, not `@astrojs/tailwind`
-**Build**: JIT compilation is default - no configuration needed
+### Current Project Setup (CONFIRMED WORKING)
+- **Astro Version**: 5.7.4 with automatic Tailwind v4 support
+- **Tailwind Version**: v4.1.10 (latest stable)
+- **Integration**: Manual `@tailwindcss/vite` plugin setup
+- **CSS Syntax**: `@import "tailwindcss";` (correct for v4)
 
-## Implementation Patterns
+### Setup Methods (Research Validated)
 
-### Utility-First Approach
-- Apply classes directly in HTML: `class="text-xl font-bold text-gray-900"`
-- Avoid `@apply` directive - use component frameworks instead
-- Use arbitrary values sparingly: `h-[60vh]` only when necessary
+**Option 1: Astro Automatic (Recommended for new projects)**
+```bash
+npx astro add tailwind
+```
+- Astro 5.2+ automatically detects and installs appropriate version
+- Handles v3/v4 configuration automatically
+- Creates proper CSS imports based on version
 
-### Responsive Design
-```astro
-<div class="text-sm md:text-lg lg:text-xl">
-  Mobile-first responsive text
-</div>
+**Option 2: Manual v4 Setup (Current project method)**
+```bash
+npm install tailwindcss@next @tailwindcss/vite
+```
+- Requires manual `@tailwindcss/vite` plugin configuration
+- Must use `@import "tailwindcss";` in CSS
+- More control over configuration
+
+### CSS Syntax by Version
+- **v3**: `@tailwind base; @tailwind components; @tailwind utilities;`
+- **v4**: `@import "tailwindcss";`
+- **Current Project**: Using v4 syntax ✅
+
+## Utility-First Implementation
+
+### CRITICAL: Avoid Custom CSS Classes
+❌ **Wrong**: Creating custom CSS classes in global.css
+```css
+.hero-section { /* custom styles */ }
+.stats-grid { /* custom styles */ }
 ```
 
-### Component Structure
+✅ **Correct**: Use utility classes directly in HTML
 ```astro
-<!-- Hero Section -->
-<section class="relative bg-cover bg-center h-[60vh] flex items-center justify-center">
-  <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
-    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Title</h1>
+<section class="relative bg-[url('/hero.jpg')] bg-cover bg-center h-[50vh] md:h-[80vh]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+```
+
+### Background Images Best Practices
+- **Use utility**: `bg-[url('/image.jpg')]` not inline styles
+- **Complete pattern**: `bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat`
+- **Responsive**: `h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px]`
+
+### Pseudo-elements
+- **Required**: `before:content-['']` for pseudo-elements to render
+- **Safe syntax**: Single quotes inside brackets are valid
+- **Alternative**: `before:content-[""]` also works
+
+## Component Patterns
+
+### Hero Section (Complete Example)
+```astro
+<section class="relative bg-[url('/hero-image.jpg')] bg-cover bg-center bg-no-repeat 
+             h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px] md:min-h-[500px]
+             flex items-center justify-center
+             before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
+  <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+      Title
+    </h1>
+    <p class="text-lg sm:text-xl md:text-2xl mb-8 opacity-90">
+      Subtitle
+    </p>
   </div>
 </section>
 ```
 
-### Grid Layouts
+### Stats Grid
 ```astro
-<!-- Stats Grid -->
 <section class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-  <div class="text-center p-6 bg-gray-50 rounded-lg border">
-    <span class="block text-3xl font-bold text-blue-600">Value</span>
+  <div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+    <span class="block text-3xl font-bold text-blue-600">12+</span>
+    <span class="text-gray-600 text-sm">Years Experience</span>
   </div>
+</section>
+```
+
+### Blog Post Grid
+```astro
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <article class="p-6 border border-gray-200 rounded-lg bg-white hover:shadow-md hover:border-blue-600 transition-all duration-200">
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">Post Title</h3>
+    <p class="text-gray-600 text-sm mb-4">Date</p>
+    <p class="text-gray-700 leading-relaxed">Description</p>
+  </article>
 </section>
 ```
 
 ## Typography Plugin Integration
 
-**Config**: Add `@tailwindcss/typography` to plugins
-**Usage**: Apply `prose` class to content containers
-**Customization**: Use `prose-lg`, `prose-blue` modifiers
-
-## Performance Optimization
-
-- Tailwind v4 auto-purges unused CSS
-- Prefer utility classes over custom CSS
-- Use design tokens from `tailwind.config.js`
-- Leverage CSS cascade layers for specificity
-
-## Common Patterns
-
-**Cards**: `p-6 border border-gray-200 rounded-lg bg-white hover:shadow-md`
-**Buttons**: `px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700`
-**Containers**: `max-w-6xl mx-auto px-4 sm:px-6 lg:px-8`
-
-## Critical Best Practices
-
-### Background Images
-- **ALWAYS use utility classes**: `bg-[url('/image.jpg')]` not `style="background-image: url()"`
-- **Combine with positioning**: `bg-cover bg-center bg-no-repeat`
-- **Avoid inline styles**: Breaks utility-first consistency
-
-### Pseudo-element Content
-- **Use empty quotes**: `before:content-['']` (single quotes inside are safe)
-- **Required for rendering**: Pseudo-elements need content property to display
-- **Alternative**: `before:content-[""]` or omit if decorative only
-
-### Hero Section Heights
-- **Mobile-first**: Start with `h-[50vh]` for mobile, scale up with breakpoints
-- **Responsive scaling**: `h-[50vh] sm:h-[70vh] md:h-[80vh]`
-- **Minimum heights**: Add `min-h-[300px]` for small screens
-- **Avoid**: Sudden height jumps that affect mobile UX
-
-### Performance Patterns
-```astro
-<!-- Optimal hero section -->
-<section class="relative bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat 
-             h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px] 
-             flex items-center justify-center
-             before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
-  <div class="relative z-10 text-center text-white">
-    <!-- Content -->
-  </div>
-</section>
+### Configuration
+```js
+// tailwind.config.js
+plugins: ['@tailwindcss/typography']
 ```
 
-## Troubleshooting
+### Usage Patterns
+```astro
+<!-- Blog content with typography -->
+<article class="prose prose-lg prose-blue max-w-none">
+  <Content />
+</article>
+```
 
-- **Build errors**: Check Vite plugin configuration
-- **Missing styles**: Verify content paths in config
-- **Specificity issues**: Use `!important` sparingly, prefer cascade layers
-- **Pseudo-element not showing**: Ensure `before:content-['']` is present
-- **Background image not loading**: Use `bg-[url()]` utility, avoid inline styles
+### Custom Typography in Config
+```js
+typography: {
+  DEFAULT: {
+    css: {
+      maxWidth: 'none',
+      color: '#374151',
+      // Custom styles for headings, code, etc.
+    }
+  }
+}
+```
+
+## Performance and Maintenance
+
+### File Organization
+- **Global CSS**: Only fonts, base styles, and Tailwind import
+- **Component Styles**: Use utility classes in HTML
+- **Custom Styles**: Avoid unless absolutely necessary
+
+### Responsive Design Patterns
+- **Mobile-first**: Start with base styles, add breakpoint modifiers
+- **Common breakpoints**: `sm:` (640px), `md:` (768px), `lg:` (1024px), `xl:` (1280px)
+- **Consistent spacing**: Use Tailwind's spacing scale (4, 6, 8, 12, 16, etc.)
+
+### Color System
+```js
+// Use design tokens from config
+colors: {
+  primary: { DEFAULT: '#2563eb', light: '#3b82f6', dark: '#1d4ed8' },
+  gray: { /* custom gray scale */ }
+}
+```
+
+## Common Issues and Solutions
+
+### Build Errors
+- **Vite plugin missing**: Ensure `@tailwindcss/vite` in astro.config.mjs
+- **Wrong CSS syntax**: Use `@import "tailwindcss";` for v4
+- **Content paths**: Verify file extensions in tailwind.config.js
+
+### Styling Issues
+- **Pseudo-elements not showing**: Add `before:content-['']`
+- **Background images not loading**: Use `bg-[url()]` utility
+- **Responsive not working**: Check mobile-first approach
+- **Specificity conflicts**: Avoid mixing custom CSS with utilities
+
+### Development Workflow
+1. **Design with utilities**: Build layouts using Tailwind classes
+2. **Extract to components**: Use Astro components for reusable patterns
+3. **Avoid custom CSS**: Prefer configuration over custom styles
+4. **Test responsively**: Verify across all breakpoints
+
+## Migration from Custom CSS
+
+### Step-by-Step Process
+1. **Identify custom classes**: Find `.custom-class` definitions
+2. **Convert to utilities**: Replace with equivalent Tailwind classes
+3. **Test functionality**: Ensure styling is preserved
+4. **Remove custom CSS**: Delete unused custom styles
+5. **Optimize**: Look for repeated patterns to extract into components
+
+### Example Conversion
+❌ **Before**: Custom CSS
+```css
+.hero-section {
+  background-image: url('/hero.jpg');
+  height: 60vh;
+  display: flex;
+  align-items: center;
+}
+```
+
+✅ **After**: Utility classes
+```astro
+<section class="bg-[url('/hero.jpg')] h-[60vh] flex items-center">
+```
+
+This approach ensures maintainable, consistent, and performant styling across the entire application.
