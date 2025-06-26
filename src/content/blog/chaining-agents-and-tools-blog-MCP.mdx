@@ -78,7 +78,11 @@ This demonstrates the seamless handoff between AI agents. Cursor didn't just rea
 
 From there, Cursor leveraged the Cloudflare documentation MCP server to understand the latest deployment approaches, created a GitHub project using the GitHub MCP server, and implemented each phase with proper git commits.
 
-The iterative refinement process involved bouncing between claude.ai, Cursor, and GitHub. Claude.ai examined existing code via the Claude Github integration and provided architectural guidance and created new linear issues. Cursor accessed the linear issues and implemented the recommended changes. I configured Cursor bug bot on pull requests for additional quality checks and periodically committed changes for bug review.
+### Quality Assurance Through Automated Review
+
+The iterative refinement process involved bouncing between claude.ai, Cursor, and GitHub. Claude.ai examined existing code via the Claude Github integration and provided architectural guidance and created new linear issues. Cursor accessed the linear issues and implemented the recommended changes. 
+
+To ensure code quality throughout this rapid development cycle, I configured [Cursor's BugBot](https://docs.cursor.com/bugbot) to automatically review every pull request. BugBot uses the same AI that powers Cursor Agent to catch potential bugs and issues that humans might miss. This created an additional layer of orchestrated intelligence - while I focused on feature development, BugBot handled quality assurance, automatically analyzing code diffs and flagging potential issues before they reached the main branch. This seamless integration of automated code review into the MCP workflow eliminated the typical quality vs. speed tradeoff in rapid prototyping.
 
 ## Why MCP Changes Everything
 
@@ -108,10 +112,9 @@ No more copy-pasting entire codebases between tools. No more explaining the same
 If you're ready to move beyond manual tool switching and experience the power of orchestrated AI development, here's how to begin:
 
 1. **Connect Your Core Tools**: Start with MCP servers for the tools you already use
-2. **Document Your Workflow**: Create detailed project documentation that your AI agents can consume
-3. **Build Context Bridges**: Install MCP servers that connect your planning, implementation, and review tools
-4. **Leverage Tool Strengths**: Let each agent focus on what it does best while sharing context
-5. **Build Custom Servers**: As you identify repetitive context-sharing needs, find new MCP servers or build MCP servers
+2. **Build Context Bridges**: Install MCP servers that connect your planning, implementation, and review tools
+3. **Leverage Tool Strengths**: Let each agent focus on what it does best while sharing context
+4. **Build Custom Servers**: As you identify repetitive context-sharing needs, find new MCP servers or build MCP servers
 
 <ResourceCard
   title="Model Context Protocol Documentation"
