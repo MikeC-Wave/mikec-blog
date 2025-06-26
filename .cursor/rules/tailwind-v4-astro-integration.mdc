@@ -1,5 +1,269 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Tailwind CSS v4 with Astro - Best Practices
+
+This rule provides guidance for working with Tailwind CSS v4 in Astro projects, focusing on proper implementation patterns and common pitfalls to avoid.
+
+## Tailwind CSS v4 Architecture
+
+### Core Import Syntax
+- **Always use**: `@import "tailwindcss"` in your CSS files
+- **Location**: Place in `src/styles/global.css` or similar main stylesheet
+- **Import in layouts**: Import the CSS file in your base Astro layout
+
+### Plugin Integration
+- **Use**: `@tailwindcss/vite` plugin in Astro configuration
+- **Avoid**: The deprecated `@astrojs/tailwind` integration for v4 projects
+
+## Astro Configuration for Tailwind v4
+
+### Recommended Setup
+```javascript
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+  },
+});
+```
+
+### Global CSS Structure
+```css
+/* src/styles/global.css */
+@import "tailwindcss";
+
+/* Font declarations */
+@font-face {
+  font-family: 'YourFont';
+  src: url('/fonts/your-font.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base styles using standard CSS properties */
+html {
+  font-family: 'YourFont', system-ui, sans-serif;
+  background: #ffffff;
+  color: #1f2937;
+}
+
+/* Custom component classes using regular CSS */
+.hero-section {
+  background-image: url('/your-image.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  min-height: 400px;
+}
+```
+
+## Critical Implementation Rules
+
+### 1. Avoid @apply Directives
+- **NEVER use**: `@apply bg-white text-gray-900` without proper setup
+- **REASON**: v4 has limited @apply support and requires `@reference` directive
+- **INSTEAD**: Use standard Tailwind utility classes directly in HTML/Astro components
+- **FOR CUSTOM STYLES**: Use regular CSS properties with hex values
+
+### 2. Component Styling Strategy
+- **PRIMARY**: Use Tailwind utility classes directly in components
+- **SECONDARY**: Create custom CSS classes for complex reusable patterns
+- **AVOID**: Mixing @apply directives with utility classes
+
+### 3. Color Configuration
+- **USE**: Standard Tailwind color naming: `text-gray-900`, `bg-blue-600`
+- **CONFIGURE**: Custom colors in `tailwind.config.js` with standard patterns
+- **AVOID**: Non-standard color naming that conflicts with Tailwind utilities
+
+## Tailwind Configuration Best Practices
+
+```javascript
+// tailwind.config.js
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#2563eb',
+          light: '#3b82f6',
+          dark: '#1d4ed8',
+        },
+        // Extend standard gray scale if needed
+        gray: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          900: '#111827',
+        }
+      },
+      fontFamily: {
+        'custom': ['YourFont', 'system-ui', 'sans-serif'],
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+      }
+    },
+  },
+  plugins: [
+    // Add plugins as needed
+  ],
+}
+```
+
+## Component Implementation Patterns
+
+### Header Component
+```astro
+<!-- Use standard Tailwind utilities -->
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex-shrink-0">
+        <a href="/" class="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+          Your Site
+        </a>
+      </div>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="/" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">
+          Home
+        </a>
+        <a href="/about" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">
+          About
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+```
+
+### Page Layout with Custom Classes
+```astro
+<!-- Combine Tailwind utilities with custom CSS classes -->
+<main>
+  <!-- Custom CSS class for complex styling -->
+  <section class="hero-section">
+    <!-- Tailwind utilities for layout and spacing -->
+    <div class="max-w-4xl mx-auto px-4 py-16 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+        Your Content
+      </h1>
+      <p class="text-xl text-gray-200 mb-8">
+        Your subtitle
+      </p>
+    </div>
+  </section>
+  
+  <!-- Pure Tailwind utility layout -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Content cards -->
+    </div>
+  </section>
+</main>
+```
+
+### Blog Post Layout
+```astro
+<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="prose prose-lg max-w-none">
+    <!-- Content with typography plugin styling -->
+    <slot />
+  </div>
+</article>
+```
+
+## Typography Plugin Integration
+
+```javascript
+// tailwind.config.js
+import typography from '@tailwindcss/typography';
+
+export default {
+  // ... other config
+  plugins: [
+    typography,
+  ],
+}
+```
+
+```css
+/* Custom prose styling */
+.prose {
+  max-width: none;
+  color: #374151;
+}
+
+.prose h1 {
+  color: #1f2937;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+.prose h2 {
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 1.875rem;
+  margin-top: 2rem;
+}
+```
+
+## Common Issues and Solutions
+
+### Build Errors
+1. **"Cannot apply unknown utility class"**: Remove @apply directives, use utilities directly
+2. **"@import not found"**: Ensure `@import "tailwindcss"` is first line in CSS
+3. **Plugin conflicts**: Verify using `@tailwindcss/vite` not old integrations
+
+### Development Issues
+1. **Styles not updating**: Restart dev server after config changes
+2. **Classes not recognized**: Check content paths in `tailwind.config.js`
+3. **Font loading problems**: Verify font paths and @font-face syntax
+
+### Performance Optimization
+1. **Content detection**: Use specific glob patterns for better tree-shaking
+2. **Unused styles**: v4 automatically purges based on content patterns
+3. **Build optimization**: Remove unused custom CSS and simplify selectors
+
+## File Organization
+
+```
+src/
+├── styles/
+│   └── global.css          # Main Tailwind import + custom styles
+├── components/
+│   ├── Header.astro        # Component with Tailwind utilities
+│   └── Footer.astro        # Component with Tailwind utilities
+├── layouts/
+│   └── BaseLayout.astro    # Import global.css here
+└── pages/
+    └── index.astro         # Pages using Tailwind classes
+```
+
+## Best Practices Checklist
+
+- [ ] Use `@import "tailwindcss"` in main CSS file
+- [ ] Configure `@tailwindcss/vite` plugin in Astro config
+- [ ] Use standard Tailwind utility classes in components
+- [ ] Create custom CSS classes for complex reusable patterns
+- [ ] Avoid @apply directives unless absolutely necessary
+- [ ] Configure content paths correctly for purging
+- [ ] Use typography plugin for markdown/blog content
+- [ ] Test responsive design across all breakpoints
+- [ ] Optimize font loading with proper @font-face declarations
+
+## Resources
+
+- [Tailwind CSS v4 Documentation](mdc:https:/tailwindcss.com/docs)
+- [Astro Styling Guide](mdc:https:/docs.astro.build/en/guides/styling)
+- [@tailwindcss/typography Plugin](mdc:https:/tailwindcss.com/docs/typography-plugin)
+
+Remember: Tailwind v4 is built for simplicity and performance. Follow the utility-first approach and use custom CSS only when utilities aren't sufficient.
