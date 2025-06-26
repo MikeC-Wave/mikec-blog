@@ -185,7 +185,36 @@ Link to external resources with rich previews and metadata.
 />
 ```
 
-### 7. ScrollVideo
+### 7. SimpleVideo
+
+A lightweight video component that plays once when scrolled into view with a replay button. Perfect for quick demonstrations and tutorials.
+
+**Props:**
+- `src` (required): Video source URL
+- `title` (optional): Video title displayed above
+
+**Usage:**
+```mdx
+<SimpleVideo 
+  src="/videos/quick-demo.mp4"
+  title="Quick Setup Demo"
+/>
+
+<SimpleVideo 
+  src="/videos/feature-preview.mp4"
+/>
+```
+
+**Features:**
+- Auto-plays when scrolled into view (50% visible)
+- Plays only once per page load
+- Shows replay button when video ends
+- Muted by default for autoplay compatibility
+- Responsive design with rounded corners and shadow
+- Works with Astro view transitions
+- Minimal overhead and simple implementation
+
+### 8. ScrollVideo
 
 Auto-playing video component that triggers playback when scrolled into view using the Intersection Observer API.
 
@@ -223,7 +252,7 @@ Auto-playing video component that triggers playback when scrolled into view usin
 />
 ```
 
-### 8. VideoDemo
+### 9. VideoDemo
 
 Enhanced video component with type-specific styling, custom controls, and rich visual effects for professional presentations.
 

@@ -12,6 +12,7 @@ import TechStack from '../../components/mdx/TechStack.astro';
 import ResourceCard from '../../components/mdx/ResourceCard.astro';
 import ScrollVideo from '../../components/mdx/ScrollVideo.astro';
 import VideoDemo from '../../components/mdx/VideoDemo.astro';
+import SimpleVideo from '../../components/mdx/SimpleVideo.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -35,6 +36,7 @@ const mdxComponents = {
 	ResourceCard,
 	ScrollVideo,
 	VideoDemo,
+	SimpleVideo,
 };
 ---
 
