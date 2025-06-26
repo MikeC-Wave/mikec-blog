@@ -1,8 +1,8 @@
 ---
 title: 'Building This Blog with MCP Tool Chaining: A Meta-Journey in AI-Assisted Development'
 description: 'How I used Claude, Cursor, and Linear with MCP integration to transform an Astro template into a professional AI-focused blog through efficient tool chaining.'
-pubDate: 'Jan 15 2025'
-heroImage: '/blog-placeholder-1.jpg'
+pubDate: '2025-06-23'
+heroImage: '/blog-1-hero.jpg'
 ---
 
 ## The Challenge: From Template to Professional Blog
