@@ -17,40 +17,70 @@ const gridClasses = {
 const gridClass = gridClasses[columns];
 ---
 
-<div class={`grid ${gridClass} gap-6 my-8 ${className}`}>
+<div class={`grid ${gridClass} gap-8 my-12 ${className}`}>
   <slot />
 </div>
 
 <style>
   /* Global styles for stat items within the grid */
   :global(.stat-item) {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e5e7eb;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     text-align: center;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Background pattern */
+  :global(.stat-item::before) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  :global(.stat-item:hover::before) {
+    opacity: 1;
   }
   
   :global(.stat-number) {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #2563eb;
-    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 10;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.75rem;
+    line-height: 1;
   }
   
   @media (min-width: 768px) {
     :global(.stat-number) {
-      font-size: 2.25rem;
+      font-size: 3rem;
     }
   }
   
   :global(.stat-label) {
+    position: relative;
+    z-index: 10;
     font-size: 0.875rem;
-    color: #4b5563;
-    font-weight: 500;
+    color: #475569;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
   }
   
   @media (min-width: 768px) {
@@ -60,15 +90,35 @@ const gridClass = gridClasses[columns];
   }
   
   :global(.stat-description) {
+    position: relative;
+    z-index: 10;
     font-size: 0.875rem;
-    color: #6b7280;
-    margin-top: 0.5rem;
+    color: #64748b;
+    margin-top: 0.75rem;
+    line-height: 1.5;
   }
   
   /* Hover effects */
   :global(.stat-item:hover) {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    transform: scale(1.05);
-    transition: all 0.2s;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 16px 20px -8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Accent border on hover */
+  :global(.stat-item::after) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb 0%, #7c3aed 50%, #ec4899 100%);
+    border-radius: 1.5rem 1.5rem 0 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  :global(.stat-item:hover::after) {
+    transform: scaleX(1);
   }
 </style> 

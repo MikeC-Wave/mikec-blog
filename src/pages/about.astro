@@ -1,45 +1,85 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<Layout
-	title="About Mike"
-	description="Enterprise AI strategist, product management coach, and government contracting expert"
-	pubDate={new Date('2025-01-15')}
-	heroImage="/blog-placeholder-about.jpg"
->
-	<p>
-		Hi, I'm Mike Collier – an Enterprise AI Strategist at <a href="https://agile6.com" target="_blank">Agile Six Applications</a> 
-		where I help teams navigate the intersection of artificial intelligence, product strategy, and human-centered design.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`About | ${SITE_TITLE}`} description="About Mike Collier and the mikec.ai blog - exploring AI strategy, emerging trends, and practical applications" />
+	</head>
+	<body class="font-atkinson">
+		<Header />
+		<main>
+			<!-- Hero Section -->
+			<section class="bg-gradient-to-br from-slate-50 to-blue-50 py-16 md:py-24">
+				<div class="max-w-4xl mx-auto px-4 text-center">
+					<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+						About mikec.ai
+					</h1>
+					<p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+						Exploring the intersection of artificial intelligence, practical implementation, and the future of technology.
+					</p>
+				</div>
+			</section>
 
-	<p>
-		With over 12 years in federal government contracting, I've had the privilege of working with teams at CMS, VA, CDC, and CEQ 
-		to transform digital services and modernize critical government systems. My work focuses on bridging the gap between 
-		cutting-edge AI capabilities and practical, ethical implementation in complex organizational environments.
-	</p>
+			<!-- Content -->
+			<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+				<div class="prose prose-lg max-w-none">
+					<p>
+						Hi, I'm Mike Collier – an Enterprise AI Strategist at <a href="https://agile6.com" target="_blank" class="text-blue-600 hover:text-blue-800">Agile Six Applications</a> 
+						where I help teams navigate the intersection of artificial intelligence, strategy, and human-centered design.
+					</p>
 
-	<p>
-		As a product management coach and agile delivery expert, I guide cross-functional teams toward outcome-driven practices 
-		that accelerate discovery-to-delivery flow. I'm particularly passionate about helping product managers, engineers, and 
-		designers effectively integrate AI tools into their workflows while maintaining responsible AI practices.
-	</p>
+					<p>
+						With over 12 years in federal government contracting, I've had the privilege of working with teams at CMS, VA, CDC, and CEQ 
+						to transform digital services and modernize critical government systems. My work focuses on bridging the gap between 
+						cutting-edge AI capabilities and practical, ethical implementation in complex organizational environments.
+					</p>
 
-	<p>
-		I hold an MBA from Rochester Institute of Technology and a BA from SUNY Oswego, along with certifications from 
-		UC Berkeley's Product Management Studio and Lean Six Sigma Black Belt from Syracuse University.
-	</p>
+					<p>
+						As an agile delivery expert, I guide cross-functional teams toward outcome-driven practices 
+						that accelerate discovery-to-delivery flow. I'm particularly passionate about helping teams effectively integrate AI tools 
+						into their workflows while maintaining responsible AI practices.
+					</p>
 
-	<p>
-		This blog is where I share insights on AI strategy implementation, product leadership in government environments, 
-		and the evolving landscape of human-AI collaboration in product development. Whether you're an AI practitioner, 
-		product manager, or government contractor exploring AI adoption, I hope you'll find valuable perspectives here.
-	</p>
+					<h2 class="text-2xl font-bold text-gray-900 mt-12 mb-6">About This Blog</h2>
+					
+					<p>
+						<strong>mikec.ai</strong> is where I share insights on AI's evolving landscape – from enterprise implementation strategies 
+						to emerging trends that will shape our technological future. Whether you're an AI practitioner, 
+						product manager, or simply curious about AI's practical applications, you'll find valuable perspectives here.
+					</p>
 
-	<p>
-		<strong>Connect with me:</strong><br>
-		📧 <a href="mailto:mike@mikec.ai">mike@mikec.ai</a><br>
-		💼 <a href="https://www.linkedin.com/in/michael-collier-5565b919/" target="_blank">LinkedIn</a><br>
-		🔗 <a href="https://mikec.ai" target="_blank">mikec.ai</a>
-	</p>
-</Layout>
+					<p>
+						This blog focuses on:
+					</p>
+					
+					<ul class="list-disc pl-6 space-y-2 text-gray-700">
+						<li><strong>Current AI Insights:</strong> Real-world applications and practical implementation strategies</li>
+						<li><strong>Emerging Trends:</strong> What's coming next in the AI landscape</li>
+						<li><strong>Enterprise Applications:</strong> How organizations are successfully adopting AI</li>
+						<li><strong>Responsible AI:</strong> Ethical considerations and best practices</li>
+					</ul>
+
+					<h2 class="text-2xl font-bold text-gray-900 mt-12 mb-6">Background</h2>
+					
+					<p>
+						I hold an MBA from Rochester Institute of Technology and a BA from SUNY Oswego, along with certifications from 
+						UC Berkeley's Product Management Studio and Lean Six Sigma Black Belt from Syracuse University.
+					</p>
+
+					<div class="bg-gray-50 rounded-lg p-6 mt-8">
+						<h3 class="text-lg font-semibold text-gray-900 mb-4">Connect</h3>
+						<div class="space-y-2">
+							<p>💼 <a href="https://www.linkedin.com/in/michael-collier-5565b919/" target="_blank" class="text-blue-600 hover:text-blue-800">LinkedIn</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
