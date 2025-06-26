@@ -64,8 +64,41 @@ alwaysApply: false
 **Buttons**: `px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700`
 **Containers**: `max-w-6xl mx-auto px-4 sm:px-6 lg:px-8`
 
+## Critical Best Practices
+
+### Background Images
+- **ALWAYS use utility classes**: `bg-[url('/image.jpg')]` not `style="background-image: url()"`
+- **Combine with positioning**: `bg-cover bg-center bg-no-repeat`
+- **Avoid inline styles**: Breaks utility-first consistency
+
+### Pseudo-element Content
+- **Use empty quotes**: `before:content-['']` (single quotes inside are safe)
+- **Required for rendering**: Pseudo-elements need content property to display
+- **Alternative**: `before:content-[""]` or omit if decorative only
+
+### Hero Section Heights
+- **Mobile-first**: Start with `h-[50vh]` for mobile, scale up with breakpoints
+- **Responsive scaling**: `h-[50vh] sm:h-[70vh] md:h-[80vh]`
+- **Minimum heights**: Add `min-h-[300px]` for small screens
+- **Avoid**: Sudden height jumps that affect mobile UX
+
+### Performance Patterns
+```astro
+<!-- Optimal hero section -->
+<section class="relative bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat 
+             h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px] 
+             flex items-center justify-center
+             before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
+  <div class="relative z-10 text-center text-white">
+    <!-- Content -->
+  </div>
+</section>
+```
+
 ## Troubleshooting
 
 - **Build errors**: Check Vite plugin configuration
 - **Missing styles**: Verify content paths in config
 - **Specificity issues**: Use `!important` sparingly, prefer cascade layers
+- **Pseudo-element not showing**: Ensure `before:content-['']` is present
+- **Background image not loading**: Use `bg-[url()]` utility, avoid inline styles
