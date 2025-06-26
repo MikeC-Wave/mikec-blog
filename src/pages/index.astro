@@ -21,10 +21,10 @@ const totalPosts = posts.length;
 		<Header />
 		<main>
 			<!-- Hero Section -->
-			<section class="hero-section">
-				<div class="hero-content">
-					<h1 class="hero-title">Mike Collier</h1>
-					<p class="hero-subtitle">Enterprise AI Strategist & Product Leader</p>
+			<section class="relative bg-[url('/hero-image.jpg')] bg-cover bg-center bg-no-repeat h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px] md:min-h-[500px] flex items-center justify-center before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
+				<div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+					<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">Mike Collier</h1>
+					<p class="text-lg sm:text-xl md:text-2xl mb-8 opacity-90">Enterprise AI Strategist & Product Leader</p>
 				</div>
 			</section>
 
@@ -42,18 +42,18 @@ const totalPosts = posts.length;
 				</section>
 
 				<!-- Stats Section -->
-				<section class="stats-grid mb-16">
-					<div class="stat-item">
-						<span class="stat-number">12+</span>
-						<span class="stat-label">Years Gov Contracting</span>
+				<section class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+						<span class="block text-3xl font-bold text-blue-600 mb-2">12+</span>
+						<span class="text-gray-600 text-sm uppercase tracking-wide">Years Gov Contracting</span>
 					</div>
-					<div class="stat-item">
-						<span class="stat-number">{totalPosts}</span>
-						<span class="stat-label">Blog Articles</span>
+					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+						<span class="block text-3xl font-bold text-blue-600 mb-2">{totalPosts}</span>
+						<span class="text-gray-600 text-sm uppercase tracking-wide">Blog Articles</span>
 					</div>
-					<div class="stat-item">
-						<span class="stat-number">Enterprise</span>
-						<span class="stat-label">AI Strategist</span>
+					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+						<span class="block text-3xl font-bold text-blue-600 mb-2">Enterprise</span>
+						<span class="text-gray-600 text-sm uppercase tracking-wide">AI Strategist</span>
 					</div>
 				</section>
 
@@ -64,16 +64,16 @@ const totalPosts = posts.length;
 						<a href="/blog" class="text-blue-600 hover:text-blue-800 font-medium">View all →</a>
 					</div>
 					
-					<div class="blog-grid">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
 						{posts.map((post) => (
-							<article class="blog-post-card">
+							<article class="p-6 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:border-blue-600 hover:shadow-md">
 								<a href={`/blog/${post.id}/`} class="block">
-									<h3 class="blog-post-title">{post.data.title}</h3>
-									<div class="blog-post-date">
+									<h3 class="text-xl font-semibold text-gray-900 mb-3 hover:text-blue-600 transition-colors">{post.data.title}</h3>
+									<div class="text-gray-500 text-sm mb-4">
 										<FormattedDate date={post.data.pubDate} />
 									</div>
 									{post.data.description && (
-										<p class="blog-post-description">{post.data.description}</p>
+										<p class="text-gray-600 leading-relaxed">{post.data.description}</p>
 									)}
 								</a>
 							</article>
