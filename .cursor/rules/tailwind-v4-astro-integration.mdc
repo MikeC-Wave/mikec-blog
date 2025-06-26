@@ -196,3 +196,93 @@ colors: {
 ```
 
 This approach ensures maintainable, consistent, and performant styling across the entire application.
+
+## Core Patterns
+
+### Typography & Content Styling
+- **Always use `@tailwindcss/typography` plugin** for blog content and markdown
+- **Create reusable Prose component** for consistent typography across pages
+- **Configure typography in tailwind.config.js** with custom styles for headings, links, code, etc.
+- **Use prose element modifiers** for fine-grained control (e.g., `prose-h2:border-b`, `prose-code:bg-pink-50`)
+- **Apply prose classes with size variants** (`prose-lg`, `prose-xl`) for different content contexts
+
+### Component Structure
+```astro
+// Prose component pattern
+<Prose size="lg">
+  <slot />
+</Prose>
+
+// BlogPost layout pattern
+<article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="mb-12">
+    <!-- Hero content -->
+  </header>
+  <Prose size="lg">
+    <slot />
+  </Prose>
+  <footer class="mt-16 pt-8 border-t">
+    <!-- Footer content -->
+  </footer>
+</article>
+```
+
+### Typography Best Practices
+- **Enhanced heading hierarchy** with proper spacing and visual weight
+- **Custom code styling** with colored backgrounds and borders
+- **Blockquote styling** with left borders and background colors
+- **Link styling** with hover effects and underline animations
+- **Table styling** with borders, hover states, and proper spacing
+- **Image styling** with rounded corners and shadows
+
+## Global CSS Structure
+
+```css
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+html, body {
+  font-family: 'Atkinson', system-ui, sans-serif;
+  line-height: 1.6;
+}
+```
+
+## Critical Implementation Notes
+
+### Tailwind v4 Differences
+- Use `@import "tailwindcss"` instead of `@tailwind` directives
+- Avoid `@apply` directive - use utility classes directly
+- Plugin syntax: `@plugin "@tailwindcss/typography"`
+
+### Typography Configuration
+- Configure typography theme in `tailwind.config.js` under `theme.extend.typography`
+- Use CSS-in-JS syntax for custom styles
+- Leverage element modifiers for consistent styling patterns
+
+### Responsive Design
+- Use responsive prose variants (`prose-lg md:prose-xl`)
+- Apply responsive spacing and typography scaling
+- Ensure mobile-first approach with proper breakpoints
+
+## Common Pitfalls to Avoid
+
+1. **Don't use @apply with custom classes** - causes build errors in v4
+2. **Don't mix v3 and v4 syntax** - use consistent v4 patterns throughout
+3. **Don't forget prose element modifiers** - they provide powerful styling control
+4. **Don't hardcode typography styles** - use the typography plugin configuration
+5. **Don't skip responsive considerations** - typography should scale across devices
