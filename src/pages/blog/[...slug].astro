@@ -10,6 +10,8 @@ import StatsGrid from '../../components/mdx/StatsGrid.astro';
 import CodeDemo from '../../components/mdx/CodeDemo.astro';
 import TechStack from '../../components/mdx/TechStack.astro';
 import ResourceCard from '../../components/mdx/ResourceCard.astro';
+import SimpleVideo from '../../components/mdx/SimpleVideo.astro';
+import XEmbed from '../../components/mdx/XEmbed.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -31,6 +33,8 @@ const mdxComponents = {
 	CodeDemo,
 	TechStack,
 	ResourceCard,
+	SimpleVideo,
+	XEmbed,
 };
 ---
 

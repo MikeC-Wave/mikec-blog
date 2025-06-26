@@ -1,0 +1,103 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+}
+
+const { src, title } = Astro.props;
+const videoId = `simple-video-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="my-8 mx-auto max-w-2xl relative">
+  {title && (
+    <h4 class="text-lg font-medium text-gray-800 mb-3">{title}</h4>
+  )}
+  <video 
+    id={videoId}
+    src={src}
+    muted 
+    playsinline
+    class="w-full rounded-lg shadow-lg"
+    data-simple-video
+  >
+    Your browser doesn't support the video tag.
+  </video>
+  <button 
+    class="replay-btn absolute bottom-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-md text-sm opacity-0 transition-opacity hover:bg-blue-700"
+    style="display: none;"
+    data-replay-for={videoId}
+  >
+    Replay
+  </button>
+</div>
+
+<script>
+class SimpleVideoManager {
+  constructor() {
+    this.init();
+    this.setupEventListeners();
+  }
+  
+  init() {
+    document.querySelectorAll('[data-simple-video]').forEach((video) => {
+      this.setupVideo(video);
+    });
+  }
+  
+  setupVideo(video) {
+    const videoId = video.id;
+    const replayBtn = document.querySelector(`[data-replay-for="${videoId}"]`);
+    let hasPlayed = false;
+    
+    // Intersection Observer to play video when scrolled into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasPlayed) {
+          video.play().catch(() => {
+            // Autoplay failed, that's ok
+          });
+          hasPlayed = true;
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    observer.observe(video);
+    
+    // Show replay button when video ends
+    video.addEventListener('ended', () => {
+      if (replayBtn) {
+        replayBtn.style.display = 'block';
+        setTimeout(() => {
+          replayBtn.style.opacity = '1';
+        }, 100);
+      }
+    });
+    
+    // Replay functionality
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        video.currentTime = 0;
+        video.play();
+        replayBtn.style.opacity = '0';
+        setTimeout(() => {
+          replayBtn.style.display = 'none';
+        }, 300);
+      });
+    }
+  }
+  
+  setupEventListeners() {
+    // Reinitialize on page load for Astro view transitions
+    document.addEventListener('astro:page-load', () => {
+      this.init();
+    });
+  }
+}
+
+// Initialize the manager
+if (typeof window !== 'undefined') {
+  if (!(window as any).simpleVideoManager) {
+    (window as any).simpleVideoManager = new SimpleVideoManager();
+  }
+}
+</script> 

@@ -185,6 +185,71 @@ Link to external resources with rich previews and metadata.
 />
 ```
 
+### 7. SimpleVideo
+
+A lightweight video component that plays once when scrolled into view with a replay button. Perfect for quick demonstrations and tutorials.
+
+**Props:**
+- `src` (required): Video source URL
+- `title` (optional): Video title displayed above
+
+**Usage:**
+```mdx
+<SimpleVideo 
+  src="/videos/quick-demo.mp4"
+  title="Quick Setup Demo"
+/>
+
+<SimpleVideo 
+  src="/videos/feature-preview.mp4"
+/>
+```
+
+**Features:**
+- Auto-plays when scrolled into view (50% visible)
+- Plays only once per page load
+- Shows replay button when video ends
+- Muted by default for autoplay compatibility
+- Responsive design with rounded corners and shadow
+- Works with Astro view transitions
+- Minimal overhead and simple implementation
+
+### 8. XEmbed
+
+Embed X (Twitter) posts using the official X oEmbed API for authentic rendering with full functionality.
+
+**Props:**
+- `url` (required): X post URL
+- `theme` (optional): `'light' | 'dark'` - Default: `'light'`
+- `maxwidth` (optional): Maximum width in pixels
+- `hide_media` (optional): Hide media attachments - Default: `false`
+- `hide_thread` (optional): Hide thread context - Default: `false`
+- `align` (optional): `'left' | 'center' | 'right'` - Default: `'left'`
+
+**Usage:**
+```mdx
+<XEmbed 
+  url="https://x.com/username/status/1234567890"
+  theme="light"
+  maxwidth={500}
+  align="center"
+/>
+
+<XEmbed 
+  url="https://x.com/username/status/1234567890"
+  theme="dark"
+  hide_media={true}
+/>
+```
+
+**Features:**
+- Uses official X oEmbed API for authentic rendering
+- Loads X widgets.js for full interactivity
+- Supports all X post types (text, images, videos, threads)
+- Configurable appearance options
+- Error handling with fallback links
+- Respects user's theme preferences
+
 ## Best Practices
 
 ### 1. Component Composition
