@@ -1,0 +1,156 @@
+---
+// CodeDemo component for interactive code examples with syntax highlighting
+export interface Props {
+  title?: string;
+  language?: string;
+  filename?: string;
+  class?: string;
+  showLineNumbers?: boolean;
+}
+
+const { 
+  title, 
+  language = 'javascript', 
+  filename, 
+  class: className = '',
+  showLineNumbers = false 
+} = Astro.props;
+
+// Generate a unique ID for this code block
+const codeId = `code-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class={`my-8 rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 ${className}`}>
+  <!-- Header with modern terminal styling -->
+  <div class="relative bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 border-b border-slate-600/50">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <!-- Traffic light dots with glow -->
+        <div class="flex gap-2">
+          <div class="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/50"></div>
+        </div>
+        
+        <!-- Title/Filename with icon -->
+        <div class="flex items-center gap-2 text-slate-300 text-sm font-medium">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+          </svg>
+          {filename && (
+            <span class="text-blue-400 font-mono">{filename}</span>
+          )}
+          {title && !filename && (
+            <span>{title}</span>
+          )}
+          {!title && !filename && (
+            <span class="capitalize">{language}</span>
+          )}
+        </div>
+      </div>
+      
+      <!-- Copy button with modern styling -->
+      <button 
+        type="button"
+        class="copy-btn group flex items-center gap-2 text-slate-400 hover:text-white text-sm px-4 py-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600/50 hover:border-slate-500/50 transition-all duration-200 backdrop-blur-sm"
+        data-code-id={codeId}
+      >
+        <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg>
+        <span>Copy</span>
+      </button>
+    </div>
+    
+    <!-- Subtle glow line -->
+    <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+  </div>
+  
+  <!-- Code content with enhanced styling -->
+  <div class="relative bg-gradient-to-br from-slate-900 to-slate-800 p-6 overflow-x-auto">
+    <!-- Background pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="code-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#code-grid)"/>
+      </svg>
+    </div>
+    
+    <pre class={`relative z-10 ${showLineNumbers ? 'line-numbers' : ''} font-mono text-sm leading-relaxed`}><code id={codeId} class={`language-${language} text-slate-300`}><slot /></code></pre>
+  </div>
+</div>
+
+<script>
+  // Add copy functionality with enhanced feedback
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async function() {
+        const codeId = this.getAttribute('data-code-id');
+        const codeElement = document.getElementById(codeId);
+        
+        if (codeElement) {
+          try {
+            await navigator.clipboard.writeText(codeElement.textContent);
+            
+            // Enhanced visual feedback
+            const originalHTML = this.innerHTML;
+            this.innerHTML = `
+              <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Copied!</span>
+            `;
+            this.classList.add('bg-green-600/50', 'border-green-500/50', 'text-green-100');
+            
+            setTimeout(() => {
+              this.innerHTML = originalHTML;
+              this.classList.remove('bg-green-600/50', 'border-green-500/50', 'text-green-100');
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+            
+            // Error feedback
+            this.classList.add('bg-red-600/50', 'border-red-500/50');
+            setTimeout(() => {
+              this.classList.remove('bg-red-600/50', 'border-red-500/50');
+            }, 1000);
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Enhanced line numbers styling */
+  .line-numbers {
+    counter-reset: line;
+  }
+  
+  .line-numbers code {
+    counter-increment: line;
+  }
+  
+  .line-numbers code::before {
+    content: counter(line);
+    display: inline-block;
+    width: 3em;
+    margin-right: 1.5em;
+    text-align: right;
+    color: #64748b;
+    border-right: 1px solid #475569;
+    padding-right: 1em;
+    font-weight: 500;
+  }
+  
+  /* Code syntax highlighting enhancements */
+  code {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+</style> 

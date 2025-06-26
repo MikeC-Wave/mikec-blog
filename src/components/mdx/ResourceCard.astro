@@ -1,0 +1,150 @@
+---
+// ResourceCard component for linking to external resources with rich previews
+export interface Props {
+  title: string;
+  url: string;
+  description?: string;
+  type?: 'article' | 'video' | 'tool' | 'course' | 'book' | 'github' | 'docs';
+  author?: string;
+  image?: string;
+  class?: string;
+}
+
+const { 
+  title, 
+  url, 
+  description, 
+  type = 'article', 
+  author, 
+  image,
+  class: className = '' 
+} = Astro.props;
+
+// Define icons and styles for each resource type with modern colors
+const typeConfig = {
+  article: { icon: '📖', gradient: 'from-blue-500 to-cyan-500', bgGradient: 'from-blue-50 to-cyan-50', label: 'Article' },
+  video: { icon: '🎬', gradient: 'from-red-500 to-pink-500', bgGradient: 'from-red-50 to-pink-50', label: 'Video' },
+  tool: { icon: '⚡', gradient: 'from-green-500 to-emerald-500', bgGradient: 'from-green-50 to-emerald-50', label: 'Tool' },
+  course: { icon: '🎓', gradient: 'from-purple-500 to-violet-500', bgGradient: 'from-purple-50 to-violet-50', label: 'Course' },
+  book: { icon: '📚', gradient: 'from-orange-500 to-amber-500', bgGradient: 'from-orange-50 to-amber-50', label: 'Book' },
+  github: { icon: '💻', gradient: 'from-gray-700 to-slate-700', bgGradient: 'from-gray-50 to-slate-50', label: 'GitHub' },
+  docs: { icon: '📋', gradient: 'from-indigo-500 to-blue-500', bgGradient: 'from-indigo-50 to-blue-50', label: 'Documentation' }
+};
+
+const config = typeConfig[type];
+---
+
+<a 
+  href={url} 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class={`group block my-8 no-underline ${className}`}
+>
+  <div class="relative bg-gradient-to-br from-white via-slate-50 to-blue-50 rounded-2xl border border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-[1.02] hover:-translate-y-1">
+    
+    <!-- Background pattern -->
+    <div class="absolute inset-0 opacity-[0.02]">
+      <svg class="w-full h-full" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="resource-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1" fill="currentColor"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#resource-pattern)"/>
+      </svg>
+    </div>
+    
+    <!-- Hover accent line -->
+    <div class={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${config.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}></div>
+    
+    <!-- Main content -->
+    <div class="relative p-8">
+      <div class="flex items-start gap-6">
+        <!-- Image/Icon with enhanced styling -->
+        <div class="flex-shrink-0">
+          {image ? (
+            <div class="relative">
+              <img 
+                src={image} 
+                alt={title}
+                class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow-lg"
+              />
+              <!-- Icon overlay -->
+              <div class={`absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br ${config.gradient} rounded-xl flex items-center justify-center text-white text-sm shadow-lg`}>
+                {config.icon}
+              </div>
+            </div>
+          ) : (
+            <div class={`w-20 h-20 rounded-2xl bg-gradient-to-br ${config.gradient} flex items-center justify-center text-3xl shadow-lg border-2 border-white`}>
+              {config.icon}
+            </div>
+          )}
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <!-- Type badge with modern styling -->
+          <div class="mb-3">
+            <span class={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gradient-to-r ${config.bgGradient} border border-slate-200 shadow-sm`}>
+              <span class="text-sm">{config.icon}</span>
+              <span class="tracking-wide">{config.label}</span>
+            </span>
+          </div>
+          
+          <!-- Title with gradient text -->
+          <h4 class="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-900 transition-colors duration-300 tracking-tight">
+            {title}
+          </h4>
+          
+          <!-- Description -->
+          {description && (
+            <p class="text-slate-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+              {description}
+            </p>
+          )}
+          
+          <!-- Author and URL with enhanced styling -->
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
+            {author && (
+              <span class="font-medium flex items-center gap-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                </svg>
+                {author}
+              </span>
+            )}
+            <span class="truncate ml-auto font-mono bg-slate-100 px-2 py-1 rounded-md">
+              {new URL(url).hostname}
+            </span>
+          </div>
+        </div>
+        
+        <!-- External link icon with animation -->
+        <div class="flex-shrink-0 text-slate-400 group-hover:text-blue-500 transition-colors duration-300">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style> 

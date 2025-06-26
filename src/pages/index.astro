@@ -9,7 +9,6 @@ import FormattedDate from '../components/FormattedDate.astro';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const totalPosts = posts.length;
 ---
 
 <!doctype html>
@@ -21,50 +20,33 @@ const totalPosts = posts.length;
 		<Header />
 		<main>
 			<!-- Hero Section -->
-			<section class="relative bg-gray-900 bg-[url('/hero-image.jpg')] bg-cover bg-center bg-no-repeat h-[50vh] sm:h-[70vh] md:h-[80vh] min-h-[300px] md:min-h-[500px] flex items-center justify-center before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
+			<section class="relative bg-gray-900 bg-[url('/hero-image.jpg')] bg-cover bg-center bg-no-repeat h-[40vh] md:h-[50vh] min-h-[300px] flex items-center justify-center before:absolute before:inset-0 before:bg-black/40 before:z-[1] before:content-['']">
 				<div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-					<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">Mike Collier</h1>
-					<p class="text-lg sm:text-xl md:text-2xl mb-8 opacity-90">Enterprise AI Strategist & Product Leader</p>
+					<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+						The Future of AI
+					</h1>
+					<p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+						Current insights, emerging trends, and practical applications shaping tomorrow's AI landscape.
+					</p>
 				</div>
 			</section>
 
 			<!-- Main Content -->
 			<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-				<!-- Introduction -->
-				<section class="text-center mb-16">
-					<h2 class="text-3xl font-bold text-gray-900 mb-6">Building the Future of AI</h2>
-					<p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-						I'm an Enterprise AI Strategist with over 12 years of experience in government contracting, 
-						specializing in AI product development, strategic planning, and cross-functional team leadership. 
-						I help organizations navigate the complex landscape of AI implementation and drive innovation 
-						that delivers real business value.
-					</p>
-				</section>
-
-				<!-- Stats Section -->
-				<section class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
-					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
-						<span class="block text-3xl font-bold text-blue-600 mb-2">12+</span>
-						<span class="text-gray-600 text-sm uppercase tracking-wide">Years Gov Contracting</span>
-					</div>
-					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
-						<span class="block text-3xl font-bold text-blue-600 mb-2">{totalPosts}</span>
-						<span class="text-gray-600 text-sm uppercase tracking-wide">Blog Articles</span>
-					</div>
-					<div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
-						<span class="block text-3xl font-bold text-blue-600 mb-2">Enterprise</span>
-						<span class="text-gray-600 text-sm uppercase tracking-wide">AI Strategist</span>
-					</div>
-				</section>
-
-				<!-- Blog Posts Section -->
+				
+				<!-- Recent Articles -->
 				<section>
 					<div class="flex items-center justify-between mb-8">
-						<h2 class="text-2xl font-bold text-gray-900">Latest Articles</h2>
-						<a href="/blog" class="text-blue-600 hover:text-blue-800 font-medium">View all →</a>
+						<h2 class="text-2xl md:text-3xl font-bold text-gray-900">Recent Articles</h2>
+						<a href="/blog" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
+							View all articles
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+							</svg>
+						</a>
 					</div>
 					
-					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 						{posts.map((post) => (
 							<article class="p-6 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:border-blue-600 hover:shadow-md">
 								<a href={`/blog/${post.id}/`} class="block">

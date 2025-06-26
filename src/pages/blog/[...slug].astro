@@ -3,6 +3,14 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { render } from 'astro:content';
 
+// Import all MDX components
+import CalloutBox from '../../components/mdx/CalloutBox.astro';
+import ProcessStep from '../../components/mdx/ProcessStep.astro';
+import StatsGrid from '../../components/mdx/StatsGrid.astro';
+import CodeDemo from '../../components/mdx/CodeDemo.astro';
+import TechStack from '../../components/mdx/TechStack.astro';
+import ResourceCard from '../../components/mdx/ResourceCard.astro';
+
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
@@ -14,8 +22,18 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+// Register MDX components to be available in all blog posts
+const mdxComponents = {
+	CalloutBox,
+	ProcessStep,
+	StatsGrid,
+	CodeDemo,
+	TechStack,
+	ResourceCard,
+};
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+	<Content components={mdxComponents} />
 </BlogPost>
