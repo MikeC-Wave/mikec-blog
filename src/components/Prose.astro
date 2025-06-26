@@ -1,0 +1,23 @@
+---
+// Prose component for consistent typography styling across the blog
+export interface Props {
+  class?: string;
+  size?: 'sm' | 'base' | 'lg' | 'xl' | '2xl';
+}
+
+const { class: className = '', size = 'lg' } = Astro.props;
+
+const sizeClasses = {
+  sm: 'prose-sm',
+  base: 'prose',
+  lg: 'prose-lg',
+  xl: 'prose-xl',
+  '2xl': 'prose-2xl'
+};
+
+const proseClasses = `prose ${sizeClasses[size]} prose-gray max-w-none ${className}`.trim();
+---
+
+<div class={proseClasses}>
+  <slot />
+</div> 
