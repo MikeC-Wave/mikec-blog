@@ -43,7 +43,7 @@ To demonstrate the power of MCP-enabled orchestration, let me share how I set up
 
 I used Claude.ai to brainstorm the technology stack and examine tradeoffs. I landed on an Astro blog with Tailwind CSS hosted on Cloudflare Workers. But before Claude could create detailed Linear issues for me, I needed to set up the Linear MCP server integration.
 
-The first step was connecting Linear to Claude through MCP. This involved configuring the Linear MCP server in my Claude desktop application, which took just a few seconds but unlocked powerful capabilities:
+The first step was connecting Linear to Claude through MCP. This involved configuring the Linear MCP server in my Claude web application, which took just a few seconds but unlocked powerful capabilities:
 
 <SimpleVideo 
   src="https://blog-assets.mikec.ai/linear-mcp-setup.mp4"
@@ -52,7 +52,7 @@ The first step was connecting Linear to Claude through MCP. This involved config
 
 ### Creating the Project Requirements
 
-With the Linear MCP server connected, Claude could now directly access my Linear workspace, read existing issues, create new ones, and maintain full context about my project management workflow. This eliminated the typical friction of manually copying requirements between tools.
+With the Linear MCP server connected, Claude could now directly access my Linear workspace, read existing issues, create new ones, and maintain full context about my management workflow. This eliminated the typical friction of manually copying requirements between tools.
 
 Once the integration was live, I could ask Claude to create a comprehensive Linear issue for the blog MVP. Watch how seamlessly Claude accesses Linear, understands my workspace structure, and creates a detailed issue with proper formatting, acceptance criteria, and technical specifications:
 
@@ -82,20 +82,20 @@ From there, Cursor leveraged the Cloudflare documentation MCP server to understa
 
 The iterative refinement process involved bouncing between claude.ai, Cursor, and GitHub. Claude.ai examined existing code via the Claude Github integration and provided architectural guidance and created new linear issues. Cursor accessed the linear issues and implemented the recommended changes. 
 
-To ensure code quality throughout this rapid development cycle, I configured [Cursor's BugBot](https://docs.cursor.com/bugbot) to automatically review every pull request. BugBot uses the same AI that powers Cursor Agent to catch potential bugs and issues that humans might miss. This created an additional layer of orchestrated intelligence - while I focused on feature development, BugBot handled quality assurance, automatically analyzing code diffs and flagging potential issues before they reached the main branch. This seamless integration of automated code review into the MCP workflow eliminated the typical quality vs. speed tradeoff in rapid prototyping.
+To ensure code quality throughout this rapid development cycle, I configured [Cursor's BugBot](https://docs.cursor.com/bugbot) to automatically review every pull request. BugBot uses the same AI that powers Cursor Agent to catch potential bugs and issues that humans might miss. This created an additional layer of orchestrated intelligence - while I focused on feature development, BugBot handled quality assurance, automatically analyzing code diffs and flagging potential issues before they reached the main branch. This integration of automated code review into the MCP workflow mitigated the quality vs. speed tradeoff in rapid prototyping.
 
 ## Why MCP Changes Everything
 
-MCP enables something greater than the sum of its parts: orchestration where specialized AI tools work together seamlessly, enabling us to efficiently leverage their unique strengths without losing context.
+MCP enables orchestration where specialized AI tools work together seamlessly, enabling us to efficiently leverage their unique strengths without losing context.
 
 The Model Context Protocol eliminates the fundamental barriers that prevented effective AI tool orchestration:
 
 - **Elimination of Context Barriers**: No more copy-pasting codebases or re-explaining requirements
 - **Seamless Tool Integration**: Agents can access shared context from any connected tool  
-- **Intelligent Handoffs**: Work flows naturally between specialized agents
+- **Intelligent Handoffs**: Work flows naturally between specialized agents and tools
 - **Persistent Understanding**: Context persists across tool switches and sessions
 
-The development process revealed how MCP-enabled orchestration handles complex tasks that would have been nearly impossible with manual context switching. Claude.ai created detailed Linear issues with architectural decisions, acceptance criteria, and implementation notes. Cursor read these issues via MCP and implemented them with full understanding of the context and requirements - no lost details, no miscommunication.
+The development process revealed how MCP-enabled orchestration handles complex tasks that would have been challenging and time consuming. Claude.ai created detailed Linear issues with architectural decisions, acceptance criteria, and implementation notes. Cursor read these issues via MCP and implemented them with full understanding of the context and requirements - no lost details, no miscommunication.
 
 When working with Cloudflare Workers deployment, Cursor accessed the latest Cloudflare documentation through MCP, ensuring implementations followed current best practices. This eliminated outdated approach issues that plagued my earlier projects.
 
@@ -105,16 +105,22 @@ We're moving beyond "vibe coding" to something far more powerful: orchestrated A
 
 MCP represents a fundamental shift from isolated AI tools to interconnected intelligence networks. When agents can share context seamlessly, the collective capability exceeds what any single tool could achieve.
 
-No more copy-pasting entire codebases between tools. No more explaining the same requirements multiple times. Context flows naturally between specialized agents, creating a truly seamless development experience. Each tool can focus on what it does best while having access to the full context. When friction between tools disappears and context is preserved, development speed increases exponentially. What used to take days of back-and-forth now happens in hours of coordinated agent collaboration.
-
+No more copy-pasting entire codebases between tools. No more explaining the same requirements multiple times.
 ## Getting Started with MCP Orchestration
 
 If you're ready to move beyond manual tool switching and experience the power of orchestrated AI development, here's how to begin:
 
-1. **Connect Your Core Tools**: Start with MCP servers for the tools you already use
-2. **Build Context Bridges**: Install MCP servers that connect your planning, implementation, and review tools
-3. **Leverage Tool Strengths**: Let each agent focus on what it does best while sharing context
-4. **Build Custom Servers**: As you identify repetitive context-sharing needs, find new MCP servers or build MCP servers
+1. **Enable MCP servers that connect your planning, implementation, and review tools
+2. **Leverage Tool Strengths**: Let each agent focus on what it does best while sharing context
+3. **Build Custom Servers**: As you identify repetitive context-sharing needs, find new MCP servers or build MCP servers
+
+## Conclusion
+
+The Model Context Protocol has transformed my approach to building software by enabling true orchestration of AI tools. It's not about replacing human developers or "vibing" our way to working code. It's about creating intelligent workflows where specialized AI agents contribute their unique strengths through seamless integration.
+
+MCP eliminates the friction that made multi-tool AI development frustrating and unreliable. When context flows seamlessly between agents, and each tool can focus on its strengths while maintaining full understanding of the project, the result is a development environment that feels like magic.
+
+The blog you're reading exists because of this orchestrated intelligence, built through the coordinated efforts of multiple AI agents working together through MCP. This isn't just the future of AI-assisted development (it's the present), and it's remarkably powerful.
 
 <ResourceCard
   title="Model Context Protocol Documentation"
@@ -131,16 +137,6 @@ If you're ready to move beyond manual tool switching and experience the power of
   type="tool"
   author="Cloudflare"
 />
-
-
-
-## Conclusion
-
-The Model Context Protocol has transformed my approach to building software by enabling true orchestration of AI tools. It's not about replacing human developers or "vibing" our way to working code. It's about creating intelligent workflows where specialized AI agents contribute their unique strengths through seamless integration.
-
-MCP eliminates the friction that made multi-tool AI development frustrating and unreliable. When context flows seamlessly between agents, and each tool can focus on its strengths while maintaining full understanding of the project, the result is a development environment that feels like magic.
-
-The blog you're reading exists because of this orchestrated intelligence, built through the coordinated efforts of multiple AI agents working together through MCP. This isn't just the future of AI-assisted development (it's the present), and it's remarkably powerful.
 
 ---
 
