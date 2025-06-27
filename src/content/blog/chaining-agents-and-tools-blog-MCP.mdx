@@ -97,7 +97,7 @@ The Model Context Protocol eliminates the fundamental barriers that prevented ef
 
 The development process revealed how MCP-enabled orchestration handles complex tasks that would have been challenging and time consuming. Claude.ai created detailed Linear issues with architectural decisions, acceptance criteria, and implementation notes. Cursor read these issues via MCP and implemented them with full understanding of the context and requirements - no lost details, no miscommunication.
 
-When working with Cloudflare Workers deployment, Cursor accessed the latest Cloudflare documentation through MCP, ensuring implementations followed current best practices. This eliminated outdated approach issues that plagued my earlier projects.
+While configuring this blog to run on Cloudflare Workers, Cursor automatically accessed the latest Worker-specific guidance from Cloudflare’s documentation via MCP, ensuring the implementation followed current best practices. This step matters because Worker deployments are still relatively new and offer clear advantages over Cloudflare Pages, and AI models have not yet learned this paradigm, so Cursor would otherwise lack the information needed to configure the deployment reliably.
 
 ## The Future is Orchestrated Intelligence
 
