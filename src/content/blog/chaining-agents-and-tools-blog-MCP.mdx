@@ -39,7 +39,7 @@ To demonstrate the power of MCP-enabled orchestration, I'm going to share how I 
 
 ### Setting Up the Integration
 
-I used Claude.ai to brainstorm the technology stack and examine tradeoffs. I landed on an Astro blog with Tailwind CSS hosted on Cloudflare Workers. I had Claude create a linear issue for me that would reflect those decisions and provide context to the Cursor coding agent.
+I used Claude.ai to brainstorm the technology stack and examine tradeoffs. I landed on an Astro blog with Tailwind CSS hosted on Cloudflare Workers. I had Claude create a Linear issue for me that would reflect those decisions and provide context to the Cursor coding agent.
 
 The first step was connecting Linear to Claude through MCP. This involved configuring the Linear MCP server in my Claude web application, which takes just a few seconds but unlocked powerful capabilities:
 
@@ -78,7 +78,7 @@ From there, Cursor leveraged the Cloudflare documentation MCP server to understa
 
 ### Quality Assurance Through Automated Review
 
-The iterative refinement process involved bouncing between claude.ai, Cursor, and GitHub. Claude.ai examined existing code via the Claude Github integration and provided architectural guidance and created new linear issues. Cursor accessed the linear issues and implemented the recommended changes. 
+The iterative refinement process involved bouncing between claude.ai, Cursor, and GitHub. Claude.ai examined existing code via the Claude Github integration and provided architectural guidance and created new Linear issues. Cursor accessed the Linear issues and implemented the recommended changes. 
 
 To ensure code quality throughout this rapid development cycle, I configured [Cursor's BugBot](https://docs.cursor.com/bugbot) to automatically review every pull request. This created an additional layer of orchestrated intelligence - while I focused on feature development, BugBot handled quality assurance, automatically analyzing code diffs and flagging bugs before they reached the main branch. This integration of automated code review into the MCP workflow mitigated the quality vs. speed tradeoff in rapid prototyping.
 
