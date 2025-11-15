@@ -1,0 +1,72 @@
+---
+title: 'If it quacks like a duck...'
+description: 'Why the debate over AI agent definitions misses the point. Real agents create value through autonomous orchestration, and when you see one, you will know it.'
+pubDate: 'Nov 14 2025'
+heroImage: '/blog-2-hero.png'
+---
+
+## The Definition Debate
+
+The tech industry is littered with debate and pedanticism over what an AI "agent" is. "Is this truly an agent?" "Isn't that just a deterministic loop you are building while delegating some small binary decisions of the control flow of an application to an LLM?" "No, a more formal definition of an agent is \<insert flavor of the month agent definition\>."
+
+If you need to ask if something is truly an agent, then it probably isn't. You will know it when you see it.
+
+I asked ChatGPT its definition of an AI agent as of 2025, and it said:
+
+> A system that uses models to understand goals, plan or choose actions, and perform those actions autonomously through tools, APIs, or an environment — while maintaining context over time.
+
+While these are necessary components of what is meant by "agent," I don't think that this definition is sufficient. The definition addresses inputs, actions, and autonomy, but not outcomes. Performing actions without value is simply waste. I'm not interested in something that can perform actions for action's sake - I'm interested in something that can autonomously create value.
+
+My experience is that an individual AI model is not very good at creating value when performing complex tasks. Complex tasks require an incredible amount of context, and today's models are context limited. 200k tokens goes quite fast.
+
+While it's amazing that Claude Sonnet 4.5 can create a relatively simple 10-slide company branded PowerPoint presentation that is 90% ready, it's frustrating for larger tasks. The model simply fails when it runs out of context and gives up without warning. Today I tried twice with the same prompt on Claude desktop - 20 slides - and it just failed, creating no value at all.
+
+Claude Sonnet 4.5 on desktop would technically meet ChatGPT's definition of an agent, but I reject that it is. It couldn't even autonomously decide to hand off the remainder of a fairly simple PowerPoint generation to another model instance to complete the task, which resulted in nothing being delivered.
+
+## And that made all of the difference
+
+While Claude Sonnet 4.5 is an incredibly capable model for well-bounded tasks, it has inherent limitations on its own. It cannot natively interact with other model instances or truly collaborate in any meaningful way with other AIs. It runs out of context, and just gives up - with no real agency to make real decisions on how to complete a task.
+
+But what if you give Sonnet 4.5 an ecosystem to operate in, and the ability to delegate to other models? That makes all of the difference. The basic underlying architecture powering Anthropic's Claude Code command line interface is not that complex, at least for the parts of it that create the most value. Claude Code gives Anthropic's models a terminal to operate in and the ability to delegate work to other model instances. Those seemingly simple conditions don't seem like they should produce emergent capabilities, but they do. They are conditions for real agents to create real value on complex tasks with only very high-level intent expressed regarding the outcomes one hopes to achieve. That is an agent, and when you see it, you know it.
+
+With a 200-word prompt in Claude Code, a 30-minute to 2-hour agentic session can be kicked off that results in tremendous value, resulting in more than a dozen sub-agents being delegated work tasks, sometimes up to 12 working in parallel, all orchestrated by a main agent with the agency and autonomy to define how many friends to phone, and when.
+
+Going from a single AI that spontaneously "gives up" in the middle of a presentation, to a model that calls 20 other model instances to perform specialized tasks for it over a 1-hour period, all while its context window is preserved, is a profound difference. **That duck quacks.**
+
+Stop arguing over the definition of what an agent is. You'll know it when you see it.
+
+## Try this prompt in Claude Code
+
+Here's a generic prompt that demonstrates multi-agent orchestration:
+
+<CalloutBox type="info" title="Multi-Agent Orchestration Prompt Template">
+
+Your goal is to **&lt;insert outcome you hope to achieve&gt;**. I want you to obtain enough context to be able to effectively prompt a planning agent to research this, and identify any open research questions that still remain (if any) in order to create an effective plan. If any open research questions remain, delegate task agents to additional research agents in parallel. If this step of delegating additional research agents was necessary, then have another agent consolidate all of the research into a single document.
+
+Following that, I want you to deploy an architect to design a multi-agent orchestration strategy that considers dependencies, conflicts, and sequencing of execution, which might include combinations of parallel and sequential task execution. Then deploy the task implementation agents.
+
+Be sure to build in validation steps with fast and frequent feedback loops so that we know sub-agents are on the right track in meeting our goal of **&lt;insert outcome you hope to achieve&gt;**. Make sure to build in sub-agents that periodically merge all of the work together. Once the execution phase is done, have a final agent validate everything, and deploy any additional agents necessary to meet the objective with high quality.
+
+Have agents put intermediate documentation and reports here **&lt;subdirectory path&gt;**, but make sure they are not overly verbose and ensure they aren't creating multiple unnecessary documents.
+
+</CalloutBox>
+
+This is a generic prompt that is designed to cover most scenarios, but not one that I would generally use, as I would tailor my prompt to each outcome I hope to achieve. Soon this level of detailed prompting won't be necessary as models and scaffolding like Claude Code will be even more agentic, but for now, we must summon the agents into existence with some creative nudging such as the prompt above.
+
+## Conclusion
+
+The endless debate over what constitutes a "real" AI agent misses the fundamental point: agents are defined by their ability to autonomously create value. When you give a capable model the right ecosystem (a terminal and the ability to orchestrate other instances), you unlock true agency. When agents can delegate to other agents, context limitations become irrelevant.
+
+Stop debating definitions. Start building systems where AI agents can truly collaborate. When you see real agency in action, you'll know it.
+
+<ResourceCard
+  title="Claude Code Documentation"
+  url="https://code.claude.com/docs"
+  description="Learn how to leverage Claude Code's multi-agent orchestration capabilities for complex development tasks."
+  type="docs"
+  author="Anthropic"
+/>
+
+---
+
+*Interested in discussing multi-agent orchestration strategies or sharing your own experiences? Connect with me on LinkedIn. I'm always excited to explore new approaches to AI collaboration.*
