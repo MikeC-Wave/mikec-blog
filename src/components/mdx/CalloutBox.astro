@@ -80,7 +80,7 @@ const displayTitle = title || currentStyle.defaultTitle;
         <h4 class={`${currentStyle.titleColor} font-bold text-xl mb-3 leading-tight tracking-tight`}>
           {displayTitle}
         </h4>
-        <div class={`prose prose-sm max-w-none ${currentStyle.textColor} [&>*:first-child]:mt-0 [&>*:last-child]:mb-0`}>
+        <div class={`prose prose-lg max-w-none ${currentStyle.textColor} [&>*:first-child]:mt-0 [&>*:last-child]:mb-0`}>
           <slot />
         </div>
       </div>
